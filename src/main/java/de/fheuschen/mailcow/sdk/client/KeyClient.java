@@ -13,7 +13,7 @@ public class KeyClient extends BaseClient {
 
     public KeyClient(String server, String apiKey) {
         this.apiKey = apiKey;
-        this.server = this.client.target(server);
+        this.server = this.client.target(server + "/api/v1/");
     }
 
     protected WebTarget doAuthentication(WebTarget t) {

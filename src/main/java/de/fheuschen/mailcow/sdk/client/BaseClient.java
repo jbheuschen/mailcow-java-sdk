@@ -59,6 +59,11 @@ public abstract class BaseClient {
 
     public interface Endpoint<T extends MailcowModel > {
         String getEndpointUrl();
+        String getEditEndpointUrl();
+        String getDeleteEndpointUrl();
+        String getAddEndpointUrl();
     }
+
+
 
 }
