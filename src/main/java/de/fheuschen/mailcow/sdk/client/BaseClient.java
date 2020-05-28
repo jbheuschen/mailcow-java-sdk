@@ -4,6 +4,7 @@ import de.fheuschen.mailcow.sdk.model.MailcowModel;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -55,6 +56,11 @@ public abstract class BaseClient {
         for(String key : params.keySet())
             t.queryParam(key, params.getOrDefault(key, ""));
         return this.doAuthentication(t).request(MediaType.APPLICATION_JSON).get(clazz);
+    }
+
+    public Response performDelete(MailcowModel m, Map<String, Object> params) {
+        WebTarget t = server.path(m.getEndpoint().getDeleteEndpointUrl());
+        return this.doAuthentication(t).request(MediaType.APPLICATION_JSON).post(Entity.entity(params, MediaType.APPLICATION_JSON));
     }
 
     public interface Endpoint<T extends MailcowModel > {

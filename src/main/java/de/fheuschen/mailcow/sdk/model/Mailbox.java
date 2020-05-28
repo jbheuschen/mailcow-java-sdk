@@ -1,7 +1,9 @@
 package de.fheuschen.mailcow.sdk.model;
 
+import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -183,5 +185,24 @@ public class Mailbox extends MailcowModel {
 
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
+    }
+
+    @Override
+    public int getId() {
+        // TODO
+        return 0;
+    }
+
+    @Override
+    public boolean delete(Mailcow m) {
+        Map<String, Object> p = new HashMap<>();
+        p.put("items", new Integer[] {this.getId()});
+        m.getClient().performDelete(this, p);
+        return true;
+    }
+
+    @Override
+    public boolean update(Mailcow m) {
+        return false;
     }
 }

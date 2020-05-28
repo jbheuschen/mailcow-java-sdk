@@ -1,5 +1,6 @@
 package de.fheuschen.mailcow.sdk.model;
 
+import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 
 /**
@@ -243,5 +244,21 @@ public class Domain extends MailcowModel {
 
     public void setRl(boolean rl) {
         this.rl = rl;
+    }
+
+    @Override
+    public int getId() {
+        // TODO
+        return 0;
+    }
+
+    @Override
+    public boolean delete(Mailcow m) {
+        return false;
+    }
+
+    @Override
+    public boolean update(Mailcow m) {
+        return false;
     }
 }

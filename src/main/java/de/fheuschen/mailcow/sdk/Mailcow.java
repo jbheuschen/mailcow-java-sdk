@@ -21,4 +21,12 @@ public class Mailcow {
         this.client = new KeyClient(apiKey, serverUrl);
     }
 
+    public BaseClient getClient() {
+        return client;
+    }
+
+    public String getServerUrl() {
+        return serverUrl;
+    }
+
 }
