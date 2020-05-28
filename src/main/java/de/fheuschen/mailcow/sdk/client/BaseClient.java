@@ -2,6 +2,7 @@ package de.fheuschen.mailcow.sdk.client;
 
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
 
+import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -13,9 +14,9 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public abstract class Client {
+public abstract class BaseClient {
 
-    protected javax.ws.rs.client.Client client = ClientBuilder.newClient();
+    protected Client client = ClientBuilder.newClient();
     protected String apiKey;
     protected WebTarget server;
 

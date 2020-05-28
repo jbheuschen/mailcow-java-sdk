@@ -1,6 +1,6 @@
 package de.fheuschen.mailcow.sdk;
 
-import de.fheuschen.mailcow.sdk.client.Client;
+import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.client.KeyClient;
 
 /**
@@ -13,7 +13,7 @@ public class Mailcow {
     // Currently, the only supported authentication method is using an api key. In the future, it would be great to support OAuth authentication as well.
 
     private String apiKey, serverUrl;
-    private Client client;
+    private BaseClient client;
 
     public Mailcow(String apiKey, String serverUrl) {
         this.apiKey = apiKey;

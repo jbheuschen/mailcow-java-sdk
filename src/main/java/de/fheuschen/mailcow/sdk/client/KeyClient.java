@@ -7,7 +7,7 @@ import javax.ws.rs.client.WebTarget;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class KeyClient extends Client {
+public class KeyClient extends BaseClient {
 
     public static final String MAILCOW_AUTH_HEADER = "X-API-Key";
 
