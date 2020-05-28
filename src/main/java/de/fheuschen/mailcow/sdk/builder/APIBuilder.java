@@ -23,6 +23,6 @@ public class APIBuilder implements Builder<Mailcow> {
     }
 
     public Mailcow build() {
-        return new Mailcow();
+        return new Mailcow(apiKey, serverUrl);
     }
 }
