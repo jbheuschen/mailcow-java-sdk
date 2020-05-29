@@ -11,16 +11,16 @@ import java.util.Arrays;
  */
 public class ODomain extends OMailcowModel<Domain> {
 
-    String active, gal, relayhost, backupmx, description, maxquota;
+    String active, gal, relayhost, backupmx, description;
 
     public ODomain(Domain m) {
         super(m);
         this.active = String.valueOf(m.getActiveInt());
-        this.gal = String.valueOf(m.getGal());
+        this.gal = String.valueOf(m.getGalInt());
         this.relayhost = String.valueOf(m.getRelayhost());
         this.backupmx = String.valueOf(m.getBackupmxInt());
         this.description = m.getDescription();
-        this.maxquota = String.valueOf(m.getMaxQuotaForDomain());
+        //this.maxquota = String.valueOf(m.getMaxQuotaForMbox());
     }
 
     @Override

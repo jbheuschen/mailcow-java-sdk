@@ -8,6 +8,7 @@ import de.fheuschen.mailcow.sdk.model.outward.ODomain;
 import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 import de.fheuschen.mailcow.sdk.util.RequestType;
 
+import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
