@@ -214,7 +214,7 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
     public Domain fetch(Mailcow m) throws MailcowException {
         if(this.identification == null)
             throw new IllegalStateException("You must provide an id you want to fetch.");
-        return null;
+        return m.getClient().performGetRequest(Domain.ENDPOINT, null, Domain.class);
     }
 
     @Override

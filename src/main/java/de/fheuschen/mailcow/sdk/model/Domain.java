@@ -163,6 +163,11 @@ public class Domain extends MailcowModel {
         this.additionalProperties = additionalProperties;
     }
 
+    @Deprecated
+    public Domain() {
+        super(ENDPOINT);
+    }
+
     @JsonProperty("max_new_mailbox_quota")
     public Integer getMaxNewMailboxQuota() {
         return maxNewMailboxQuota;
