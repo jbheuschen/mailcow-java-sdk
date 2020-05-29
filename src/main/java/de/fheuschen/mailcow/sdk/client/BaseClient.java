@@ -78,6 +78,7 @@ public abstract class BaseClient {
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
+            System.out.println(g.toJson(om.wrap(items)));
         return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.json(g.toJson(om.wrap(items))));
     }
 

@@ -1,5 +1,6 @@
 package de.fheuschen.mailcow.sdk.model.outward;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
 
@@ -15,7 +16,7 @@ import java.util.Arrays;
  */
 public abstract class OMailcowModel<T extends MailcowModel> extends MailcowModel {
 
-    protected T m;
+    protected transient T m;
 
     public OMailcowModel(T m)
     {

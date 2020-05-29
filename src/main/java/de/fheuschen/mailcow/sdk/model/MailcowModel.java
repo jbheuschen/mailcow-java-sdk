@@ -11,7 +11,7 @@ import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
  */
 public abstract class MailcowModel {
 
-    final BaseClient.Endpoint<?> endpoint;
+    final transient BaseClient.Endpoint<?> endpoint;
 
     public MailcowModel(BaseClient.Endpoint<?> endpoint) {
         this.endpoint = endpoint;
