@@ -78,8 +78,7 @@ public abstract class BaseClient {
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
         Response r = this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get();
-        T[] ts = (T[]) g.fromJson(r.readEntity(String.class), MailcowModel[].class);
-        return Arrays.asList(ts);
+        return g.fromJson(r.readEntity(String.class), new TypeToken<ArrayList<T>>() {}.getType());
     }
 
     public Response performDelete(MailcowModel m, Map<String, Object> params) {
