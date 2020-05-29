@@ -15,28 +15,30 @@ public class Domain extends MailcowModel {
     String domainName, description, relayhost, backupmx, gal, lang, active, relayAllRecipients;
     boolean rl;
 
+    public static final BaseClient.Endpoint<Domain> ENDPOINT = new BaseClient.Endpoint<Domain>() {
+        @Override
+        public String getEndpointUrl() {
+            return "get/domain/";
+        }
+
+        @Override
+        public String getEditEndpointUrl() {
+            return "edit/domain/";
+        }
+
+        @Override
+        public String getDeleteEndpointUrl() {
+            return "delete/domain/";
+        }
+
+        @Override
+        public String getAddEndpointUrl() {
+            return "add/domain/";
+        }
+    };
+
     public Domain(int maxNewMailboxQuota, int defNewMailboxQuota, int quotaUsedInDomain, int mboxesInDomain, int mboxesLeft, int defQuotaForMbox, int maxQuotaForMbox, int maxQuotaForDomain, int backupmxInt, int galInt, int activeInt, int relayAllRecipientsInt, int aliasesInDomain, int aliasesLeft, String domainName, String description, String relayhost, String backupmx, String gal, String lang, String active, String relayAllRecipients, boolean rl) {
-        super(new BaseClient.Endpoint<MailcowModel>() {
-            @Override
-            public String getEndpointUrl() {
-                return "get/domain/";
-            }
-
-            @Override
-            public String getEditEndpointUrl() {
-                return "edit/domain/";
-            }
-
-            @Override
-            public String getDeleteEndpointUrl() {
-                return "delete/domain/";
-            }
-
-            @Override
-            public String getAddEndpointUrl() {
-                return "add/domain/";
-            }
-        });
+        super(ENDPOINT);
         this.maxNewMailboxQuota = maxNewMailboxQuota;
         this.defNewMailboxQuota = defNewMailboxQuota;
         this.quotaUsedInDomain = quotaUsedInDomain;

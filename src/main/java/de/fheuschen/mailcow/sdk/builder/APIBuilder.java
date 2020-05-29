@@ -7,7 +7,7 @@ import de.fheuschen.mailcow.sdk.Mailcow;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class APIBuilder implements Builder<Mailcow> {
+public class APIBuilder implements RawBuilder<Mailcow> {
 
     private String apiKey;
     private String serverUrl;

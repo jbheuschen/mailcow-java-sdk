@@ -1,19 +1,24 @@
 package de.fheuschen.mailcow.sdk.builder;
 
+import de.fheuschen.mailcow.sdk.Mailcow;
+import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;
+
+import java.util.Collection;
 
 /**
  * DomainBuilder
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class DomainBuilder implements Builder<Domain> {
+public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBuilder> {
 
     private int maxNewMailboxQuota, defNewMailboxQuota, quotaUsedInDomain, mboxesInDomain, mboxesLeft;
     private int defQuotaForMbox, maxQuotaForMbox, maxQuotaForDomain, backupmxInt, galInt, activeInt, relayAllRecipientsInt,
             aliasesInDomain, aliasesLeft;
     private String domainName, description, relayhost, backupmx, gal, lang, active, relayAllRecipients;
     private boolean rl;
+    private String identification = Mailcow.ID_ALL;
 
     public DomainBuilder setMaxNewMailboxQuota(int maxNewMailboxQuota) {
         this.maxNewMailboxQuota = maxNewMailboxQuota;
@@ -133,5 +138,25 @@ public class DomainBuilder implements Builder<Domain> {
     @Override
     public Domain build() {
         return new Domain(maxNewMailboxQuota, defNewMailboxQuota, quotaUsedInDomain, mboxesInDomain, mboxesLeft, defQuotaForMbox, maxQuotaForMbox, maxQuotaForDomain, backupmxInt, galInt, activeInt, relayAllRecipientsInt, aliasesInDomain, aliasesLeft, domainName, description, relayhost, backupmx, gal, lang, active, relayAllRecipients, rl);
+    }
+
+    @Override
+    public DomainBuilder withId(String id) {
+        this.identification = id;
+        return this;
+    }
+
+    @Override
+    public Domain fetch(Mailcow m) throws MailcowException {
+        if(this.identification == null)
+            throw new IllegalStateException("You must provide an id you want to fetch.");
+        return null;
+    }
+
+    @Override
+    public Collection<Domain> fetchAll(Mailcow m) throws MailcowException {
+        Collection<Domain> c = m.getClient().performMultiGetRequest(Domain.ENDPOINT, null, Domain.class, Mailcow.ID_ALL);
+        System.out.println(c);
+        return c;
     }
 }

@@ -4,6 +4,7 @@ import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Mailbox;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -116,6 +117,11 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
     public Mailbox fetch(Mailcow m) throws MailcowException {
         if(this.identification == null)
             throw new IllegalStateException("You must provide an id you want to fetch.");
+        return null;
+    }
+
+    @Override
+    public Collection<Mailbox> fetchAll(Mailcow m) throws MailcowException {
         return null;
     }
 }

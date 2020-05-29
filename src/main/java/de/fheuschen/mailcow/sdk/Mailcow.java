@@ -20,7 +20,8 @@ public class Mailcow {
     public Mailcow(String apiKey, String serverUrl) {
         this.apiKey = apiKey;
         this.serverUrl = serverUrl;
-        this.client = new KeyClient(apiKey, serverUrl);
+        this.client = new KeyClient(serverUrl, apiKey);
+        this.client.initialize(this);
     }
 
     public BaseClient getClient() {
