@@ -220,7 +220,6 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
     @Override
     public Collection<Domain> fetchAll(Mailcow m) throws MailcowException {
         Collection<Domain> c = m.getClient().performMultiGetRequest(Domain.ENDPOINT, null, Domain.class, Mailcow.ID_ALL);
-        System.out.println(c);
         return c;
     }
 }

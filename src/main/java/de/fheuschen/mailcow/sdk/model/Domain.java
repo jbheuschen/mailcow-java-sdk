@@ -1,8 +1,12 @@
 package de.fheuschen.mailcow.sdk.model;
 
 import com.fasterxml.jackson.annotation.*;
+import com.google.gson.annotations.SerializedName;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.model.outward.ODomain;
+import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
+import de.fheuschen.mailcow.sdk.util.RequestType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,67 +72,6 @@ public class Domain extends MailcowModel {
         }
     };
 
-    @JsonProperty("max_new_mailbox_quota")
-    private long maxNewMailboxQuota;
-    @JsonProperty("def_new_mailbox_quota")
-    private long defNewMailboxQuota;
-    @JsonProperty("quota_used_in_domain")
-    private String quotaUsedInDomain;
-    @JsonProperty("bytes_total")
-    private long bytesTotal;
-    @JsonProperty("msgs_total")
-    private int msgsTotal;
-    @JsonProperty("mboxes_in_domain")
-    private int mboxesInDomain;
-    @JsonProperty("mboxes_left")
-    private int mboxesLeft;
-    @JsonProperty("domain_name")
-    private String domainName;
-    @JsonProperty("description")
-    private String description;
-    @JsonProperty("max_num_aliases_for_domain")
-    private int maxNumAliasesForDomain;
-    @JsonProperty("max_num_mboxes_for_domain")
-    private int maxNumMboxesForDomain;
-    @JsonProperty("def_quota_for_mbox")
-    private long defQuotaForMbox;
-    @JsonProperty("max_quota_for_mbox")
-    private long maxQuotaForMbox;
-    @JsonProperty("max_quota_for_domain")
-    private long maxQuotaForDomain;
-    @JsonProperty("relayhost")
-    private String relayhost;
-    @JsonProperty("backupmx")
-    private String backupmx;
-    @JsonProperty("gal")
-    private String gal;
-    @JsonProperty("backupmx_int")
-    private int backupmxInt;
-    @JsonProperty("gal_int")
-    private int galInt;
-    @JsonProperty("rl")
-    private Boolean rl;
-    @JsonProperty("active")
-    private String active;
-    @JsonProperty("active_int")
-    private int activeInt;
-    @JsonProperty("relay_all_recipients")
-    private String relayAllRecipients;
-    @JsonProperty("relay_unknown_only")
-    private String relayUnknownOnly;
-    @JsonProperty("relay_all_recipients_int")
-    private int relayAllRecipientsInt;
-    @JsonProperty("relay_unknown_only_int")
-    private int relayUnknownOnlyInt;
-    @JsonProperty("aliases_in_domain")
-    private int aliasesInDomain;
-    @JsonProperty("aliases_left")
-    private int aliasesLeft;
-    @JsonProperty("domain_admins")
-    private String domainAdmins;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
     public Domain(long maxNewMailboxQuota, long defNewMailboxQuota, String quotaUsedInDomain, long bytesTotal, int msgsTotal, int mboxesInDomain, int mboxesLeft, String domainName, String description, int maxNumAliasesForDomain, int maxNumMboxesForDomain, long defQuotaForMbox, int maxQuotaForMbox, int maxQuotaForDomain, String relayhost, String backupmx, String gal, int backupmxInt, int galInt, Boolean rl, String active, int activeInt, String relayAllRecipients, String relayUnknownOnly, int relayAllRecipientsInt, int relayUnknownOnlyInt, int aliasesInDomain, int aliasesLeft, String domainAdmins, Map<String, Object> additionalProperties) {
         super(ENDPOINT);
         this.maxNewMailboxQuota = maxNewMailboxQuota;
@@ -162,6 +105,96 @@ public class Domain extends MailcowModel {
         this.domainAdmins = domainAdmins;
         this.additionalProperties = additionalProperties;
     }
+
+    @JsonProperty("max_new_mailbox_quota")
+    @SerializedName(value = "max_new_mailbox_quota", alternate = {})
+    private long maxNewMailboxQuota;
+    @JsonProperty("def_new_mailbox_quota")
+    @SerializedName(value = "def_new_mailbox_quota", alternate = {})
+    private long defNewMailboxQuota;
+    @JsonProperty("quota_used_in_domain")
+    @SerializedName(value = "quota_used_in_domain", alternate = {})
+    private String quotaUsedInDomain;
+    @JsonProperty("bytes_total")
+    @SerializedName(value = "bytes_total", alternate = {})
+    private long bytesTotal;
+    @JsonProperty("msgs_total")
+    @SerializedName(value = "msgs_total", alternate = {})
+    private int msgsTotal;
+    @JsonProperty("mboxes_in_domain")
+    @SerializedName(value = "mboxes_in_domain", alternate = {})
+    private int mboxesInDomain;
+    @JsonProperty("mboxes_left")
+    @SerializedName(value = "mboxes_left", alternate = {})
+    private int mboxesLeft;
+    @JsonProperty("domain_name")
+    @SerializedName(value = "domain_name", alternate = {})
+    private String domainName;
+    @JsonProperty("description")
+    @SerializedName(value = "description", alternate = {})
+    private String description;
+    @JsonProperty("max_num_aliases_for_domain")
+    @SerializedName(value = "max_num_aliases_for_domain", alternate = {})
+    private int maxNumAliasesForDomain;
+    @JsonProperty("max_num_mboxes_for_domain")
+    @SerializedName(value = "max_num_mboxes_for_domain", alternate = {})
+    private int maxNumMboxesForDomain;
+    @JsonProperty("def_quota_for_mbox")
+    @SerializedName(value = "def_quota_for_mbox", alternate = {})
+    private long defQuotaForMbox;
+    @JsonProperty("max_quota_for_mbox")
+    @SerializedName(value = "max_quota_for_mbox", alternate = {})
+    private long maxQuotaForMbox;
+    @JsonProperty("max_quota_for_domain")
+    @SerializedName(value = "max_quota_for_domain", alternate = {})
+    private long maxQuotaForDomain;
+    @JsonProperty("relayhost")
+    @SerializedName(value = "relayhost", alternate = {})
+    private String relayhost;
+    @JsonProperty("backupmx")
+    @SerializedName(value = "backupmx", alternate = {})
+    private String backupmx;
+    @JsonProperty("gal")
+    @SerializedName(value = "gal", alternate = {})
+    private String gal;
+    @JsonProperty("backupmx_int")
+    @SerializedName(value = "backupmx_int", alternate = {})
+    private int backupmxInt;
+    @JsonProperty("gal_int")
+    @SerializedName(value = "gal_int", alternate = {})
+    private int galInt;
+    @JsonProperty("rl")
+    @SerializedName(value = "rl", alternate = {})
+    private Boolean rl;
+    @JsonProperty("active")
+    @SerializedName(value = "active", alternate = {})
+    private String active;
+    @JsonProperty("active_int")
+    @SerializedName(value = "active_int", alternate = {})
+    private int activeInt;
+    @JsonProperty("relay_all_recipients")
+    @SerializedName(value = "relay_all_recipients", alternate = {})
+    private String relayAllRecipients;
+    @JsonProperty("relay_unknown_only")
+    @SerializedName(value = "relay_unknown_only", alternate = {})
+    private String relayUnknownOnly;
+    @JsonProperty("relay_all_recipients_int")
+    @SerializedName(value = "relay_all_recipients_int", alternate = {})
+    private int relayAllRecipientsInt;
+    @JsonProperty("relay_unknown_only_int")
+    @SerializedName(value = "relay_unknown_only_int", alternate = {})
+    private int relayUnknownOnlyInt;
+    @JsonProperty("aliases_in_domain")
+    @SerializedName(value = "aliases_in_domain", alternate = {})
+    private int aliasesInDomain;
+    @JsonProperty("aliases_left")
+    @SerializedName(value = "aliases_left", alternate = {})
+    private int aliasesLeft;
+    @JsonProperty("domain_admins")
+    @SerializedName(value = "domain_admins", alternate = {})
+    private String domainAdmins;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @Deprecated
     public Domain() {
@@ -482,7 +515,12 @@ public class Domain extends MailcowModel {
 
     @Override
     public boolean update(Mailcow m) {
-        return false;
+        return m.getClient().performPostRequest(ENDPOINT, RequestType.UPDATE, null, this.toOModel(), domainName).getStatus() < 400;
+    }
+
+    @Override
+    public ODomain toOModel() {
+        return new ODomain(this);
     }
 
 

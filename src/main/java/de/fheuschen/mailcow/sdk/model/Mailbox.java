@@ -2,6 +2,7 @@ package de.fheuschen.mailcow.sdk.model;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -204,5 +205,10 @@ public class Mailbox extends MailcowModel {
     @Override
     public boolean update(Mailcow m) {
         return false;
+    }
+
+    @Override
+    public OMailcowModel toOModel() {
+        return null;
     }
 }

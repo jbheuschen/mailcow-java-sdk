@@ -2,6 +2,7 @@ package de.fheuschen.mailcow.sdk.model;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 
 /**
  * MailcowModel
@@ -12,7 +13,7 @@ public abstract class MailcowModel {
 
     final BaseClient.Endpoint<?> endpoint;
 
-    MailcowModel(BaseClient.Endpoint<?> endpoint) {
+    public MailcowModel(BaseClient.Endpoint<?> endpoint) {
         this.endpoint = endpoint;
     }
 
@@ -23,5 +24,6 @@ public abstract class MailcowModel {
     public abstract int getId();
     public abstract boolean delete(Mailcow m);
     public abstract boolean update(Mailcow m);
+    public abstract OMailcowModel toOModel();
 
 }
