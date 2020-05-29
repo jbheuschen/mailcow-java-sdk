@@ -1,5 +1,7 @@
 package de.fheuschen.mailcow.sdk.builder;
 
+import de.fheuschen.mailcow.sdk.Mailcow;
+import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Mailbox;
 
 import java.util.Map;
@@ -9,13 +11,15 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class MailboxBuilder implements Builder<Mailbox> {
+public class MailboxBuilder implements FetchableBuilder<Mailbox, String, MailboxBuilder> {
 
     private int maxNewQuota, isRelayed, activeInt, quotaUsed, percentInUse, messages, spamAliases;
     private long quota;
     private boolean rl;
     private String username, name, active, domain, local_part, percentClass;
     private Map<String, String> attributes;
+
+    private String identification = Mailcow.ID_ALL;
 
     public MailboxBuilder setMaxNewQuota(int maxNewQuota) {
         this.maxNewQuota = maxNewQuota;
@@ -100,5 +104,18 @@ public class MailboxBuilder implements Builder<Mailbox> {
     @Override
     public Mailbox build() {
         return new Mailbox(maxNewQuota, isRelayed, activeInt, quotaUsed, percentInUse, messages, spamAliases, quota, rl, username, name, active, domain, local_part, percentClass, attributes);
+    }
+
+    @Override
+    public MailboxBuilder withId(String id) {
+        this.identification = id;
+        return this;
+    }
+
+    @Override
+    public Mailbox fetch(Mailcow m) throws MailcowException {
+        if(this.identification == null)
+            throw new IllegalStateException("You must provide an id you want to fetch.");
+        return null;
     }
 }

@@ -10,6 +10,8 @@ import de.fheuschen.mailcow.sdk.client.KeyClient;
  */
 public class Mailcow {
 
+    public static final String ID_ALL = "all";
+
     // Currently, the only supported authentication method is using an api key. In the future, it would be great to support OAuth authentication as well.
 
     private String apiKey, serverUrl;
