@@ -484,4 +484,41 @@ public class Domain extends MailcowModel {
     public boolean update(Mailcow m) {
         return false;
     }
+
+
+    @Override
+    public String toString() {
+        return "Domain{" +
+                "maxNewMailboxQuota=" + maxNewMailboxQuota +
+                ", defNewMailboxQuota=" + defNewMailboxQuota +
+                ", quotaUsedInDomain='" + quotaUsedInDomain + '\'' +
+                ", bytesTotal=" + bytesTotal +
+                ", msgsTotal=" + msgsTotal +
+                ", mboxesInDomain=" + mboxesInDomain +
+                ", mboxesLeft=" + mboxesLeft +
+                ", domainName='" + domainName + '\'' +
+                ", description='" + description + '\'' +
+                ", maxNumAliasesForDomain=" + maxNumAliasesForDomain +
+                ", maxNumMboxesForDomain=" + maxNumMboxesForDomain +
+                ", defQuotaForMbox=" + defQuotaForMbox +
+                ", maxQuotaForMbox=" + maxQuotaForMbox +
+                ", maxQuotaForDomain=" + maxQuotaForDomain +
+                ", relayhost='" + relayhost + '\'' +
+                ", backupmx='" + backupmx + '\'' +
+                ", gal='" + gal + '\'' +
+                ", backupmxInt=" + backupmxInt +
+                ", galInt=" + galInt +
+                ", rl=" + rl +
+                ", active='" + active + '\'' +
+                ", activeInt=" + activeInt +
+                ", relayAllRecipients='" + relayAllRecipients + '\'' +
+                ", relayUnknownOnly='" + relayUnknownOnly + '\'' +
+                ", relayAllRecipientsInt=" + relayAllRecipientsInt +
+                ", relayUnknownOnlyInt=" + relayUnknownOnlyInt +
+                ", aliasesInDomain=" + aliasesInDomain +
+                ", aliasesLeft=" + aliasesLeft +
+                ", domainAdmins='" + domainAdmins + '\'' +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 }

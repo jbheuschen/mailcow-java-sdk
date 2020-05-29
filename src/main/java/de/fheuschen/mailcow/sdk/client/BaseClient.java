@@ -63,17 +63,16 @@ public abstract class BaseClient {
      * @param <T>
      * @return
      */
-    public <T extends MailcowModel> T performGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz) {
-        WebTarget t = server.path(endpoint.getEndpointUrl());
+    public <T extends MailcowModel> T performGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) {
+        WebTarget t = server.path(endpoint.getEndpointUrl() + ((id == null) ? "" : id));
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get(clazz);
+        return g.fromJson(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get(String.class), clazz);
     }
 
     public <T extends MailcowModel> Collection<T> performMultiGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) {
         WebTarget t = server.path(endpoint.getEndpointUrl() + ((id == null) ? "" : id));
-        //WebTarget t = server;
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
