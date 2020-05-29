@@ -68,7 +68,7 @@ public abstract class BaseClient {
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        return g.fromJson(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get(String.class), clazz);
+        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get(clazz);
     }
 
     public <T extends MailcowModel> Collection<T> performMultiGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) {

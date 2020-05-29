@@ -69,33 +69,33 @@ public class Domain extends MailcowModel {
     };
 
     @JsonProperty("max_new_mailbox_quota")
-    private Integer maxNewMailboxQuota;
+    private long maxNewMailboxQuota;
     @JsonProperty("def_new_mailbox_quota")
-    private Integer defNewMailboxQuota;
+    private long defNewMailboxQuota;
     @JsonProperty("quota_used_in_domain")
     private String quotaUsedInDomain;
     @JsonProperty("bytes_total")
-    private Integer bytesTotal;
+    private long bytesTotal;
     @JsonProperty("msgs_total")
-    private Integer msgsTotal;
+    private int msgsTotal;
     @JsonProperty("mboxes_in_domain")
-    private Integer mboxesInDomain;
+    private int mboxesInDomain;
     @JsonProperty("mboxes_left")
-    private Integer mboxesLeft;
+    private int mboxesLeft;
     @JsonProperty("domain_name")
     private String domainName;
     @JsonProperty("description")
     private String description;
     @JsonProperty("max_num_aliases_for_domain")
-    private Integer maxNumAliasesForDomain;
+    private int maxNumAliasesForDomain;
     @JsonProperty("max_num_mboxes_for_domain")
-    private Integer maxNumMboxesForDomain;
+    private int maxNumMboxesForDomain;
     @JsonProperty("def_quota_for_mbox")
-    private Integer defQuotaForMbox;
+    private long defQuotaForMbox;
     @JsonProperty("max_quota_for_mbox")
-    private Integer maxQuotaForMbox;
+    private long maxQuotaForMbox;
     @JsonProperty("max_quota_for_domain")
-    private Integer maxQuotaForDomain;
+    private long maxQuotaForDomain;
     @JsonProperty("relayhost")
     private String relayhost;
     @JsonProperty("backupmx")
@@ -103,33 +103,33 @@ public class Domain extends MailcowModel {
     @JsonProperty("gal")
     private String gal;
     @JsonProperty("backupmx_int")
-    private Integer backupmxInt;
+    private int backupmxInt;
     @JsonProperty("gal_int")
-    private Integer galInt;
+    private int galInt;
     @JsonProperty("rl")
     private Boolean rl;
     @JsonProperty("active")
     private String active;
     @JsonProperty("active_int")
-    private Integer activeInt;
+    private int activeInt;
     @JsonProperty("relay_all_recipients")
     private String relayAllRecipients;
     @JsonProperty("relay_unknown_only")
     private String relayUnknownOnly;
     @JsonProperty("relay_all_recipients_int")
-    private Integer relayAllRecipientsInt;
+    private int relayAllRecipientsInt;
     @JsonProperty("relay_unknown_only_int")
-    private Integer relayUnknownOnlyInt;
+    private int relayUnknownOnlyInt;
     @JsonProperty("aliases_in_domain")
-    private Integer aliasesInDomain;
+    private int aliasesInDomain;
     @JsonProperty("aliases_left")
-    private Integer aliasesLeft;
+    private int aliasesLeft;
     @JsonProperty("domain_admins")
     private String domainAdmins;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Domain(Integer maxNewMailboxQuota, Integer defNewMailboxQuota, String quotaUsedInDomain, Integer bytesTotal, Integer msgsTotal, Integer mboxesInDomain, Integer mboxesLeft, String domainName, String description, Integer maxNumAliasesForDomain, Integer maxNumMboxesForDomain, Integer defQuotaForMbox, Integer maxQuotaForMbox, Integer maxQuotaForDomain, String relayhost, String backupmx, String gal, Integer backupmxInt, Integer galInt, Boolean rl, String active, Integer activeInt, String relayAllRecipients, String relayUnknownOnly, Integer relayAllRecipientsInt, Integer relayUnknownOnlyInt, Integer aliasesInDomain, Integer aliasesLeft, String domainAdmins, Map<String, Object> additionalProperties) {
+    public Domain(long maxNewMailboxQuota, long defNewMailboxQuota, String quotaUsedInDomain, long bytesTotal, int msgsTotal, int mboxesInDomain, int mboxesLeft, String domainName, String description, int maxNumAliasesForDomain, int maxNumMboxesForDomain, long defQuotaForMbox, int maxQuotaForMbox, int maxQuotaForDomain, String relayhost, String backupmx, String gal, int backupmxInt, int galInt, Boolean rl, String active, int activeInt, String relayAllRecipients, String relayUnknownOnly, int relayAllRecipientsInt, int relayUnknownOnlyInt, int aliasesInDomain, int aliasesLeft, String domainAdmins, Map<String, Object> additionalProperties) {
         super(ENDPOINT);
         this.maxNewMailboxQuota = maxNewMailboxQuota;
         this.defNewMailboxQuota = defNewMailboxQuota;
@@ -169,22 +169,22 @@ public class Domain extends MailcowModel {
     }
 
     @JsonProperty("max_new_mailbox_quota")
-    public Integer getMaxNewMailboxQuota() {
+    public long getMaxNewMailboxQuota() {
         return maxNewMailboxQuota;
     }
 
     @JsonProperty("max_new_mailbox_quota")
-    public void setMaxNewMailboxQuota(Integer maxNewMailboxQuota) {
+    public void setMaxNewMailboxQuota(long maxNewMailboxQuota) {
         this.maxNewMailboxQuota = maxNewMailboxQuota;
     }
 
     @JsonProperty("def_new_mailbox_quota")
-    public Integer getDefNewMailboxQuota() {
+    public long getDefNewMailboxQuota() {
         return defNewMailboxQuota;
     }
 
     @JsonProperty("def_new_mailbox_quota")
-    public void setDefNewMailboxQuota(Integer defNewMailboxQuota) {
+    public void setDefNewMailboxQuota(long defNewMailboxQuota) {
         this.defNewMailboxQuota = defNewMailboxQuota;
     }
 
@@ -199,42 +199,42 @@ public class Domain extends MailcowModel {
     }
 
     @JsonProperty("bytes_total")
-    public Integer getBytesTotal() {
+    public long getBytesTotal() {
         return bytesTotal;
     }
 
     @JsonProperty("bytes_total")
-    public void setBytesTotal(Integer bytesTotal) {
+    public void setBytesTotal(long bytesTotal) {
         this.bytesTotal = bytesTotal;
     }
 
     @JsonProperty("msgs_total")
-    public Integer getMsgsTotal() {
+    public int getMsgsTotal() {
         return msgsTotal;
     }
 
     @JsonProperty("msgs_total")
-    public void setMsgsTotal(Integer msgsTotal) {
+    public void setMsgsTotal(int msgsTotal) {
         this.msgsTotal = msgsTotal;
     }
 
     @JsonProperty("mboxes_in_domain")
-    public Integer getMboxesInDomain() {
+    public int getMboxesInDomain() {
         return mboxesInDomain;
     }
 
     @JsonProperty("mboxes_in_domain")
-    public void setMboxesInDomain(Integer mboxesInDomain) {
+    public void setMboxesInDomain(int mboxesInDomain) {
         this.mboxesInDomain = mboxesInDomain;
     }
 
     @JsonProperty("mboxes_left")
-    public Integer getMboxesLeft() {
+    public int getMboxesLeft() {
         return mboxesLeft;
     }
 
     @JsonProperty("mboxes_left")
-    public void setMboxesLeft(Integer mboxesLeft) {
+    public void setMboxesLeft(int mboxesLeft) {
         this.mboxesLeft = mboxesLeft;
     }
 
@@ -259,52 +259,52 @@ public class Domain extends MailcowModel {
     }
 
     @JsonProperty("max_num_aliases_for_domain")
-    public Integer getMaxNumAliasesForDomain() {
+    public int getMaxNumAliasesForDomain() {
         return maxNumAliasesForDomain;
     }
 
     @JsonProperty("max_num_aliases_for_domain")
-    public void setMaxNumAliasesForDomain(Integer maxNumAliasesForDomain) {
+    public void setMaxNumAliasesForDomain(int maxNumAliasesForDomain) {
         this.maxNumAliasesForDomain = maxNumAliasesForDomain;
     }
 
     @JsonProperty("max_num_mboxes_for_domain")
-    public Integer getMaxNumMboxesForDomain() {
+    public int getMaxNumMboxesForDomain() {
         return maxNumMboxesForDomain;
     }
 
     @JsonProperty("max_num_mboxes_for_domain")
-    public void setMaxNumMboxesForDomain(Integer maxNumMboxesForDomain) {
+    public void setMaxNumMboxesForDomain(int maxNumMboxesForDomain) {
         this.maxNumMboxesForDomain = maxNumMboxesForDomain;
     }
 
     @JsonProperty("def_quota_for_mbox")
-    public Integer getDefQuotaForMbox() {
+    public long getDefQuotaForMbox() {
         return defQuotaForMbox;
     }
 
     @JsonProperty("def_quota_for_mbox")
-    public void setDefQuotaForMbox(Integer defQuotaForMbox) {
+    public void setDefQuotaForMbox(long defQuotaForMbox) {
         this.defQuotaForMbox = defQuotaForMbox;
     }
 
     @JsonProperty("max_quota_for_mbox")
-    public Integer getMaxQuotaForMbox() {
+    public long getMaxQuotaForMbox() {
         return maxQuotaForMbox;
     }
 
     @JsonProperty("max_quota_for_mbox")
-    public void setMaxQuotaForMbox(Integer maxQuotaForMbox) {
+    public void setMaxQuotaForMbox(long maxQuotaForMbox) {
         this.maxQuotaForMbox = maxQuotaForMbox;
     }
 
     @JsonProperty("max_quota_for_domain")
-    public Integer getMaxQuotaForDomain() {
+    public long getMaxQuotaForDomain() {
         return maxQuotaForDomain;
     }
 
     @JsonProperty("max_quota_for_domain")
-    public void setMaxQuotaForDomain(Integer maxQuotaForDomain) {
+    public void setMaxQuotaForDomain(long maxQuotaForDomain) {
         this.maxQuotaForDomain = maxQuotaForDomain;
     }
 
@@ -339,22 +339,22 @@ public class Domain extends MailcowModel {
     }
 
     @JsonProperty("backupmx_int")
-    public Integer getBackupmxInt() {
+    public int getBackupmxInt() {
         return backupmxInt;
     }
 
     @JsonProperty("backupmx_int")
-    public void setBackupmxInt(Integer backupmxInt) {
+    public void setBackupmxInt(int backupmxInt) {
         this.backupmxInt = backupmxInt;
     }
 
     @JsonProperty("gal_int")
-    public Integer getGalInt() {
+    public int getGalInt() {
         return galInt;
     }
 
     @JsonProperty("gal_int")
-    public void setGalInt(Integer galInt) {
+    public void setGalInt(int galInt) {
         this.galInt = galInt;
     }
 
@@ -379,12 +379,12 @@ public class Domain extends MailcowModel {
     }
 
     @JsonProperty("active_int")
-    public Integer getActiveInt() {
+    public int getActiveInt() {
         return activeInt;
     }
 
     @JsonProperty("active_int")
-    public void setActiveInt(Integer activeInt) {
+    public void setActiveInt(int activeInt) {
         this.activeInt = activeInt;
     }
 
@@ -409,42 +409,42 @@ public class Domain extends MailcowModel {
     }
 
     @JsonProperty("relay_all_recipients_int")
-    public Integer getRelayAllRecipientsInt() {
+    public int getRelayAllRecipientsInt() {
         return relayAllRecipientsInt;
     }
 
     @JsonProperty("relay_all_recipients_int")
-    public void setRelayAllRecipientsInt(Integer relayAllRecipientsInt) {
+    public void setRelayAllRecipientsInt(int relayAllRecipientsInt) {
         this.relayAllRecipientsInt = relayAllRecipientsInt;
     }
 
     @JsonProperty("relay_unknown_only_int")
-    public Integer getRelayUnknownOnlyInt() {
+    public int getRelayUnknownOnlyInt() {
         return relayUnknownOnlyInt;
     }
 
     @JsonProperty("relay_unknown_only_int")
-    public void setRelayUnknownOnlyInt(Integer relayUnknownOnlyInt) {
+    public void setRelayUnknownOnlyInt(int relayUnknownOnlyInt) {
         this.relayUnknownOnlyInt = relayUnknownOnlyInt;
     }
 
     @JsonProperty("aliases_in_domain")
-    public Integer getAliasesInDomain() {
+    public int getAliasesInDomain() {
         return aliasesInDomain;
     }
 
     @JsonProperty("aliases_in_domain")
-    public void setAliasesInDomain(Integer aliasesInDomain) {
+    public void setAliasesInDomain(int aliasesInDomain) {
         this.aliasesInDomain = aliasesInDomain;
     }
 
     @JsonProperty("aliases_left")
-    public Integer getAliasesLeft() {
+    public int getAliasesLeft() {
         return aliasesLeft;
     }
 
     @JsonProperty("aliases_left")
-    public void setAliasesLeft(Integer aliasesLeft) {
+    public void setAliasesLeft(int aliasesLeft) {
         this.aliasesLeft = aliasesLeft;
     }
 
