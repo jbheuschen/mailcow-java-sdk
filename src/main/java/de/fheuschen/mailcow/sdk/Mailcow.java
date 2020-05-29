@@ -14,8 +14,9 @@ public class Mailcow {
 
     // Currently, the only supported authentication method is using an api key. In the future, it would be great to support OAuth authentication as well.
 
-    private String apiKey, serverUrl;
-    private BaseClient client;
+    private final String apiKey;
+    private final String serverUrl;
+    private final BaseClient client;
 
     public Mailcow(String apiKey, String serverUrl) {
         this.apiKey = apiKey;
@@ -32,4 +33,12 @@ public class Mailcow {
         return serverUrl;
     }
 
+    protected String getApiKey() {
+        return apiKey;
+    }
+
+    @Override
+    public String toString() {
+        return "Mailcow API SDK connected to " + serverUrl + ".";
+    }
 }

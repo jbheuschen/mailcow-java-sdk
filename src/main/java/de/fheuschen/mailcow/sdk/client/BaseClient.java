@@ -1,6 +1,7 @@
 package de.fheuschen.mailcow.sdk.client;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.builder.DomainBuilder;
@@ -8,10 +9,7 @@ import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.lang.reflect.Array;
@@ -42,7 +40,7 @@ public abstract class BaseClient {
      * @param t the target
      * @return the authenticated target
      */
-    protected abstract WebTarget doAuthentication(WebTarget t);
+    protected abstract Invocation.Builder doAuthentication(Invocation.Builder t);
 
     /**
      * Performs a request and returns the raw response
@@ -54,7 +52,7 @@ public abstract class BaseClient {
         WebTarget t = server.path(endpoint.getEndpointUrl());
         for(String key : params.keySet())
             t.queryParam(key, params.getOrDefault(key, ""));
-        return this.doAuthentication(t).request(MediaType.APPLICATION_JSON).get();
+        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get();
     }
 
     /**
@@ -70,22 +68,23 @@ public abstract class BaseClient {
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        return this.doAuthentication(t).request(MediaType.APPLICATION_JSON).get(clazz);
+        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get(clazz);
     }
 
     public <T extends MailcowModel> Collection<T> performMultiGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) {
         WebTarget t = server.path(endpoint.getEndpointUrl() + ((id == null) ? "" : id));
+        //WebTarget t = server;
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        Response r = this.doAuthentication(t).request(MediaType.APPLICATION_JSON).get();
-        T[] ts = (T[]) g.fromJson(r.readEntity(String.class), Object[].class);
+        Response r = this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get();
+        T[] ts = (T[]) g.fromJson(r.readEntity(String.class), MailcowModel[].class);
         return Arrays.asList(ts);
     }
 
     public Response performDelete(MailcowModel m, Map<String, Object> params) {
         WebTarget t = server.path(m.getEndpoint().getDeleteEndpointUrl());
-        return this.doAuthentication(t).request(MediaType.APPLICATION_JSON).post(Entity.entity(params, MediaType.APPLICATION_JSON));
+        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.entity(params, MediaType.APPLICATION_JSON));
     }
 
     public boolean connectionSuccessful() {
