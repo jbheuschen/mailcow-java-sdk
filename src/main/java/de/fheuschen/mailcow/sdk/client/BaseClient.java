@@ -1,7 +1,6 @@
 package de.fheuschen.mailcow.sdk.client;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.builder.DomainBuilder;
@@ -9,15 +8,14 @@ import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.exception.UnsupportedAPIActionException;
 import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
+import de.fheuschen.mailcow.sdk.model.outward.ODeletePacket;
 import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 import de.fheuschen.mailcow.sdk.util.RequestType;
 
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -34,12 +32,14 @@ public abstract class BaseClient {
     protected Mailcow m;
     protected static Gson g = new Gson();
 
+    public static final int ERROR_THRESHOLD = 400;
+
     public void initialize(Mailcow m) {
         this.m = m;
     }
 
     /**
-     * This method performs the neccessary authentication on the WebTarget object (i.e., adding api keys or similar)
+     * This method performs the necessary authentication on the WebTarget object (i.e., adding api keys or similar)
      * @param t the target
      * @return the authenticated target
      */
@@ -97,6 +97,12 @@ public abstract class BaseClient {
         if(!checkReadOnly()) return null;
         WebTarget t = server.path(m.getEndpoint().getDeleteEndpointUrl());
         return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.entity(params, MediaType.APPLICATION_JSON));
+    }
+
+    public boolean performDelete(MailcowModel m, Map<String, Object> params, ODeletePacket p) {
+        if(!checkReadOnly()) return false;
+        WebTarget t = server.path(m.getEndpoint().get(RequestType.DELETE));
+        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.json(p.getObjectForSerialization())).getStatus() < ERROR_THRESHOLD;
     }
 
     public boolean checkReadOnly() throws UnsupportedAPIActionException {

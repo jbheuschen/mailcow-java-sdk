@@ -189,22 +189,8 @@ public class Mailbox extends MailcowModel {
     }
 
     @Override
-    public int getId() {
-        // TODO
-        return 0;
-    }
-
-    @Override
-    public boolean delete(Mailcow m) {
-        Map<String, Object> p = new HashMap<>();
-        p.put("items", new Integer[] {this.getId()});
-        m.getClient().performDelete(this, p);
-        return true;
-    }
-
-    @Override
-    public boolean update(Mailcow m) {
-        return false;
+    public String getId() {
+        return username;
     }
 
     @Override

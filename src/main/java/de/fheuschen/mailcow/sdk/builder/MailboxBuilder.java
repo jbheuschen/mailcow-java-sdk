@@ -124,4 +124,9 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
     public Collection<Mailbox> fetchAll(Mailcow m) throws MailcowException {
         return null;
     }
+
+    @Override
+    public Mailbox create() {
+        return null;
+    }
 }

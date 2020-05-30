@@ -9,7 +9,7 @@ import java.util.Collection;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class OWrapper<T extends OMailcowModel<? extends MailcowModel>> extends OMailcowModel<T> {
+public class OWrapper<T extends OMailcowModel<? extends MailcowModel>> extends OMailcowModel<T> implements Wrapper<OWrapper<T>> {
 
     public Collection<String> items;
     public T attr;
@@ -24,5 +24,10 @@ public class OWrapper<T extends OMailcowModel<? extends MailcowModel>> extends O
     @Override
     public OWrapper<? extends OMailcowModel<T>> wrap(String... items) {
         return (OWrapper<? extends OMailcowModel<T>>) this;
+    }
+
+    @Override
+    public OWrapper<T> getObjectForSerialization() {
+        return this;
     }
 }

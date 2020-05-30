@@ -222,4 +222,9 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
         Collection<Domain> c = m.getClient().performMultiGetRequest(Domain.ENDPOINT, null, Domain.class, Mailcow.ID_ALL);
         return c;
     }
+
+    @Override
+    public Domain create() {
+        return null;
+    }
 }

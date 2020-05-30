@@ -7,6 +7,6 @@ import de.fheuschen.mailcow.sdk.model.MailcowModel;
  * (marker interface for model builders)
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public interface Builder<P extends MailcowModel> extends RawBuilder<P> {
+public interface Builder<P extends MailcowModel> extends CreatingBuilder<P> {
 
 }

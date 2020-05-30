@@ -33,9 +33,9 @@ public abstract class OMailcowModel<T extends MailcowModel> extends MailcowModel
     public boolean delete(Mailcow m) {
         throw new UnsupportedOperationException("Cannot perform this action on OModel!");
     }
-
     @Override
-    public int getId() {
+
+    public String getId() {
         return m.getId();
     }
 

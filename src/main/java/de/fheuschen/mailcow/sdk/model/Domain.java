@@ -504,19 +504,8 @@ public class Domain extends MailcowModel {
 
 
     @Override
-    public int getId() {
-        // TODO
-        return 0;
-    }
-
-    @Override
-    public boolean delete(Mailcow m) {
-        return m.getClient().performDelete(this, null).getStatus() < 400;
-    }
-
-    @Override
-    public boolean update(Mailcow m) {
-        return m.getClient().performPostRequest(ENDPOINT, RequestType.UPDATE, null, this.toOModel(), domainName).getStatus() < 400;
+    public String getId() {
+        return ((domainName == null || domainName.trim().isEmpty()) ? Mailcow.UNKNOWN_DOMAIN : domainName);
     }
 
     @Override
