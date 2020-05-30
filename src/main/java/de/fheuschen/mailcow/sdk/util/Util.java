@@ -10,8 +10,8 @@ public class Util {
 
     /**
      * Returns if any of the given objects is null.
-     * @param of
-     * @return
+     * @param of array of objects
+     * @return true/false
      */
     public static boolean isAnyNull(Object... of) {
         for(Object o : of)

@@ -17,6 +17,9 @@ import java.util.Map;
  */
 public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBuilder> {
 
+
+
+
     private Integer maxNewMailboxQuota;
     private Integer defNewMailboxQuota;
     private String quotaUsedInDomain;
@@ -219,17 +222,33 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
 
     @Override
     public Collection<Domain> fetchAll(Mailcow m) throws MailcowException {
-        Collection<Domain> c = m.getClient().performMultiGetRequest(Domain.ENDPOINT, null, Domain.class, Mailcow.ID_ALL);
-        return c;
+        return m.getClient().performMultiGetRequest(Domain.ENDPOINT, null, Domain.class, Mailcow.ID_ALL);
     }
 
     @Override
     public Domain create() {
+        this.hardRequirementsFulfilled();
         return null;
     }
 
     @Override
     public Object[] getRequiredFields() {
-        return new Object[0];
+
+        /*
+            Minimal setup:
+                {
+                    "domain":"domain.tld6",
+                    "description":"some decsription", //probably not...
+                    "aliases":"400",
+                    "mailboxes":"10",
+                    "defquota":"3072",
+                    "maxquota":"10240",
+                    "quota":"10240",
+                    "active":"1"
+                }
+
+         */
+
+        return new Object[] {this.domainName, this.maxNumAliasesForDomain, this.maxNumMboxesForDomain, this.defQuotaForMbox, this.maxQuotaForMbox, this.activeInt, this.maxQuotaForDomain};
     }
 }
