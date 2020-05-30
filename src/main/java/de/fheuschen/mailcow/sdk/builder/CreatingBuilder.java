@@ -1,5 +1,7 @@
 package de.fheuschen.mailcow.sdk.builder;
 
+import de.fheuschen.mailcow.sdk.util.Util;
+
 /**
  * CreatingBuilder
  *
@@ -11,4 +13,9 @@ public interface CreatingBuilder<P> extends RawBuilder<P> {
      * @return
      */
     P create();
+
+    Object[] getRequiredFields();
+    default boolean requirementsFulfilled() {
+        return !Util.isAnyNull(getRequiredFields());
+    }
 }

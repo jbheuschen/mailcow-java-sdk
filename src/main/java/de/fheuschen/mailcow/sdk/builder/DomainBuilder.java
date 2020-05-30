@@ -227,4 +227,9 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
     public Domain create() {
         return null;
     }
+
+    @Override
+    public Object[] getRequiredFields() {
+        return new Object[0];
+    }
 }

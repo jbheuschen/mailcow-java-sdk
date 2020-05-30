@@ -129,4 +129,9 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
     public Mailbox create() {
         return null;
     }
+
+    @Override
+    public Object[] getRequiredFields() {
+        return new Object[0];
+    }
 }
