@@ -511,7 +511,7 @@ public class Domain extends MailcowModel {
 
     @Override
     public boolean delete(Mailcow m) {
-        return false;
+        return m.getClient().performDelete(this, null).getStatus() < 400;
     }
 
     @Override

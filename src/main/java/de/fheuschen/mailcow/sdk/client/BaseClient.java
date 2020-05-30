@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.builder.DomainBuilder;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
+import de.fheuschen.mailcow.sdk.exception.UnsupportedAPIActionException;
 import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
 import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
@@ -74,6 +75,7 @@ public abstract class BaseClient {
     }
 
     public <T extends MailcowModel> Response performPostRequest(Endpoint<T> endpoint, RequestType type, Map<String, String> params, OMailcowModel<T> om, String... items) {
+        if(endpoint.writing(type) && !checkReadOnly()) return null;
         WebTarget t = server.path(endpoint.get(type));
         if(params != null)
             for(String key : params.keySet())
@@ -92,8 +94,15 @@ public abstract class BaseClient {
     }
 
     public Response performDelete(MailcowModel m, Map<String, Object> params) {
+        if(!checkReadOnly()) return null;
         WebTarget t = server.path(m.getEndpoint().getDeleteEndpointUrl());
         return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.entity(params, MediaType.APPLICATION_JSON));
+    }
+
+    public boolean checkReadOnly() throws UnsupportedAPIActionException {
+        if(m.isReadOnly() && m.isThrowOnWrite())
+            throw new UnsupportedAPIActionException("Cannot perform write action on read-only API!");
+        return m.isReadOnly();
     }
 
     public boolean connectionSuccessful() {
@@ -107,12 +116,41 @@ public abstract class BaseClient {
         }
     }
 
+    /**
+     * Contains the endpoint data
+     * @param <T> the model whose data this endpoints contains
+     */
     public interface Endpoint<T extends MailcowModel > {
+
+        /**
+         * Endpoint URL to fetch data.
+         * @return
+         */
         String getEndpointUrl();
+
+        /**
+         * Endpoint URL to edit/update data.
+         * @return
+         */
         String getEditEndpointUrl();
+
+        /**
+         * Endpoint URL to delete data.
+         * @return
+         */
         String getDeleteEndpointUrl();
+
+        /**
+         * Endpoint URL to create objects.
+         * @return
+         */
         String getAddEndpointUrl();
 
+        /**
+         * Returns the endpoint url for the given type.
+         * @param type
+         * @return
+         */
         default String get(RequestType type) {
             switch(type) {
                 case CREATE:
@@ -123,6 +161,22 @@ public abstract class BaseClient {
                     return getEditEndpointUrl();
                 default:
                     return getEndpointUrl();
+            }
+        }
+
+        /**
+         * Returns whether the given action is a writing action.
+         * @param type
+         * @return
+         */
+        default boolean writing(RequestType type) {
+            switch(type) {
+                case CREATE:
+                case UPDATE:
+                case DELETE:
+                    return true;
+                default:
+                    return false;
             }
         }
     }

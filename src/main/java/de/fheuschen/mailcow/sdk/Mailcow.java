@@ -17,11 +17,14 @@ public class Mailcow {
     private final String apiKey;
     private final String serverUrl;
     private final BaseClient client;
+    private boolean readOnly = false, throwOnWrite = true;
 
-    public Mailcow(String apiKey, String serverUrl) {
+    public Mailcow(String apiKey, String serverUrl, boolean readOnly, boolean throwOnWrite) {
         this.apiKey = apiKey;
         this.serverUrl = serverUrl;
         this.client = new KeyClient(serverUrl, apiKey);
+        this.readOnly = readOnly;
+        this.throwOnWrite = throwOnWrite;
         this.client.initialize(this);
     }
 
@@ -31,6 +34,14 @@ public class Mailcow {
 
     public String getServerUrl() {
         return serverUrl;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public boolean isThrowOnWrite() {
+        return throwOnWrite;
     }
 
     protected String getApiKey() {
