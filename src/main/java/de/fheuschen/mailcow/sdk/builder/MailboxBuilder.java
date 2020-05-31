@@ -1,6 +1,7 @@
 package de.fheuschen.mailcow.sdk.builder;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
+import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Mailbox;
 
@@ -133,5 +134,15 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
     @Override
     public Object[] getRequiredFields() {
         return new Object[0];
+    }
+
+    @Override
+    public Map<String, Object> getCreationMap() {
+        return null;
+    }
+
+    @Override
+    public BaseClient.Endpoint<?> getEndpoint() {
+        return null;
     }
 }
