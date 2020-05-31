@@ -74,7 +74,7 @@ class DomainTest {
     @Test
     void update() {
         d.setActiveInt(0);
-        d.update(m);
+        assertTrue(d.update(m));
         try {
             d = new DomainBuilder()
                     .withId(MailcowProvider.TEST_DOMAIN)
