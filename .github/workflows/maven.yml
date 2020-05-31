@@ -28,3 +28,6 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
     - name: Build and test with Maven
       run: mvn -B package --file pom.xml
+      env:
+        MCJ_KEY: ${{ secrets.MCJ_KEY }}
+        MCJ_URL: ${{ secrets.MCJ_URL }}
