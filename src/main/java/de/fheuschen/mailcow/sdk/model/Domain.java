@@ -5,10 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.model.outward.ODomain;
-import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
-import de.fheuschen.mailcow.sdk.util.RequestType;
 
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -549,4 +546,5 @@ public class Domain extends MailcowModel {
                 ", additionalProperties=" + additionalProperties +
                 '}';
     }
+
 }
