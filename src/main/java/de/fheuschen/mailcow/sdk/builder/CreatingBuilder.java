@@ -8,6 +8,7 @@ import de.fheuschen.mailcow.sdk.model.MailcowModel;
 import de.fheuschen.mailcow.sdk.util.RequestType;
 import de.fheuschen.mailcow.sdk.util.Util;
 
+import javax.ws.rs.core.Response;
 import java.util.Map;
 
 /**

@@ -232,6 +232,19 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
         return null;
     }
 
+    /**
+     * Note: required fields are:
+     * <ul>
+     *     <li>domainName</li>
+     *     <li>maxNumAliasesForDomain</li>
+     *     <li>maxNumMboxesForDomain</li>
+     *     <li>defQuotaForMbox</li>
+     *     <li>maxQuotaForMbox</li>
+     *     <li>maxQuotaForDomain</li>
+     *     <li>activeInt</li>
+     * </ul>
+     * @return
+     */
     @Override
     public Object[] getRequiredFields() {
 

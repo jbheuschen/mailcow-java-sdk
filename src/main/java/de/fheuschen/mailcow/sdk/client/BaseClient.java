@@ -161,7 +161,7 @@ public abstract class BaseClient {
     public boolean checkReadOnly() throws UnsupportedAPIActionException {
         if(m.isReadOnly() && m.isThrowOnWrite())
             throw new UnsupportedAPIActionException("Cannot perform write action on read-only API!");
-        return m.isReadOnly();
+        return !m.isReadOnly();
     }
 
     /**
