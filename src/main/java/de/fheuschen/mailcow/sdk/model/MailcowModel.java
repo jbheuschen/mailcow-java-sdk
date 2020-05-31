@@ -16,6 +16,8 @@ public abstract class MailcowModel implements Deletable, Updateable {
 
     final transient BaseClient.Endpoint<?> endpoint;
 
+    public static BaseClient.Endpoint ENDPOINT = null;
+
     public MailcowModel(BaseClient.Endpoint<?> endpoint) {
         this.endpoint = endpoint;
     }

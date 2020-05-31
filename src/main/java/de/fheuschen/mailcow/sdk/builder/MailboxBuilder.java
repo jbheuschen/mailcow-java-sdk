@@ -126,7 +126,7 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
     }
 
     @Override
-    public Mailbox create() {
+    public Mailbox create(Mailcow m) {
         return null;
     }
 

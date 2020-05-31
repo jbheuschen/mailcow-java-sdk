@@ -1,8 +1,7 @@
 package de.fheuschen.mailcow.sdk.builder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import de.fheuschen.mailcow.sdk.Mailcow;
+import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;
 
@@ -226,8 +225,10 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
     }
 
     @Override
-    public Domain create() {
-        this.hardRequirementsFulfilled();
+    public Domain create(Mailcow m) throws MailcowException {
+        if(this._doCreation(m)) {
+            return this.withId(domainName).fetch(m);
+        }
         return null;
     }
 
@@ -250,5 +251,24 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
          */
 
         return new Object[] {this.domainName, this.maxNumAliasesForDomain, this.maxNumMboxesForDomain, this.defQuotaForMbox, this.maxQuotaForMbox, this.activeInt, this.maxQuotaForDomain};
+    }
+
+    @Override
+    public Map<String, Object> getCreationMap() {
+        Map<String, Object> m = new HashMap<>();
+        m.put("domain", this.domainName);
+        m.put("description", this.description);
+        m.put("aliases", this.maxNumAliasesForDomain);
+        m.put("mailboxes", this.maxNumMboxesForDomain);
+        m.put("defquota", this.defQuotaForMbox);
+        m.put("maxquota", this.maxQuotaForMbox);
+        m.put("quota", this.maxQuotaForDomain);
+        m.put("active", this.activeInt);
+        return m;
+    }
+
+    @Override
+    public BaseClient.Endpoint<?> getEndpoint() {
+        return Domain.ENDPOINT;
     }
 }
