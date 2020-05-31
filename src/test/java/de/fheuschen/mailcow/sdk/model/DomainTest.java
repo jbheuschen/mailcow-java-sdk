@@ -3,6 +3,7 @@ package de.fheuschen.mailcow.sdk.model;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.MailcowProvider;
 import de.fheuschen.mailcow.sdk.builder.DomainBuilder;
+import de.fheuschen.mailcow.sdk.exception.ItemNotFoundException;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.util.QuotaUnit;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +19,16 @@ class DomainTest {
     @BeforeEach
     void setUp() throws MailcowException {
         m = MailcowProvider.getMailcowInstance();
-        d = new DomainBuilder()
-                .withId(MailcowProvider.TEST_DOMAIN)
-                .fetch(m);
-        if(d == null) {
+        try {
+            d = new DomainBuilder()
+                    .withId(MailcowProvider.TEST_DOMAIN)
+                    .fetch(m);
+        } catch (ItemNotFoundException e) {
+            /*
+            Just in case the item we are testing with doesn't exist. Let's create it and try again.
+             */
             create();
+            setUp();
         }
     }
 
@@ -32,9 +38,8 @@ class DomainTest {
                 .withId(MailcowProvider.TEST_DOMAIN)
                 .fetch(m);
         assertNotNull(d);
-        System.out.println(d);
-        assertEquals(d.getDescription(), "Test");
-        assertNotEquals(d.getMaxQuotaForDomain(), 0L);
+        assertEquals("Test", d.getDescription());
+        assertNotEquals(0L, d.getMaxQuotaForDomain());
     }
 
     @Test
@@ -43,15 +48,11 @@ class DomainTest {
 
     @Test
     void delete() {
-        d.delete(m);
-        try {
-            d = new DomainBuilder()
-                    .withId(MailcowProvider.TEST_DOMAIN)
-                    .fetch(m);
-        } catch (MailcowException e) {
-            e.printStackTrace(); //assertDoesNotThrow?
-        }
-        assertNull(d);
+        assertTrue(d.delete(m));
+
+        assertThrows(ItemNotFoundException.class, () -> d = new DomainBuilder()
+                .withId(MailcowProvider.TEST_DOMAIN)
+                .fetch(m));
     }
 
     @Test
@@ -67,7 +68,7 @@ class DomainTest {
                 .setMaxQuotaForMbox(QuotaUnit.GB.toMiB(1))
                 .create(m);
         assertNotNull(d);
-        assertEquals(d.getDescription(), "Test");
+        assertEquals("Test", d.getDescription());
     }
 
     @Test
@@ -78,7 +79,7 @@ class DomainTest {
             d = new DomainBuilder()
                     .withId(MailcowProvider.TEST_DOMAIN)
                     .fetch(m);
-            assertEquals(d.getActiveInt(), 0);
+            assertEquals(0, d.getActiveInt());
         } catch (MailcowException e) {
             e.printStackTrace();
         }

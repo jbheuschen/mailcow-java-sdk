@@ -1,11 +1,11 @@
 package de.fheuschen.mailcow.sdk.client;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.builder.DomainBuilder;
-import de.fheuschen.mailcow.sdk.exception.MailcowException;
-import de.fheuschen.mailcow.sdk.exception.UnsupportedAPIActionException;
+import de.fheuschen.mailcow.sdk.exception.*;
 import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
 import de.fheuschen.mailcow.sdk.model.outward.ODeletePacket;
@@ -66,12 +66,12 @@ public abstract class BaseClient {
      * @param <T>
      * @return
      */
-    public <T extends MailcowModel> T performGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) {
+    public <T extends MailcowModel> T performGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) throws ItemNotFoundException {
         WebTarget t = server.path(endpoint.getEndpointUrl() + ((id == null) ? "" : id));
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get(clazz);
+        return parseToItem(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get().readEntity(String.class), clazz);
     }
 
     /**
@@ -196,6 +196,45 @@ public abstract class BaseClient {
                 throw e;
             return false;
         }
+    }
+
+    private static final String EMPTY_RESULT = "{}";
+
+    /**
+     * Parses json to an item.
+     * @param json the json
+     * @param clazz the class
+     * @param <T> the type
+     * @return the item
+     * @throws ItemNotFoundException if the json does not contain an item of that class; thus, it is likely that there was no item found.
+     */
+    protected <T extends MailcowModel> T parseToItem(String json, Class<T> clazz) throws ItemNotFoundException {
+        T t = g.fromJson(json, clazz);
+        if(t == null || json.trim().equalsIgnoreCase(EMPTY_RESULT))
+            throw new ItemNotFoundException("Item not found");
+        return t;
+    }
+
+    /**
+     * Reads the status code and throws an exception for error codes.
+     * @param statusCode
+     */
+    protected void handleStatusCode(int statusCode) throws MailcowException {
+        switch (statusCode) {
+            case 401: throw new AuthenticationFailedException("Got 401 Authentication failed!");
+            case 403: throw new AuthenticationFailedException("Got 403 Authentication failed!");
+            case 404: throw new UnsupportedAPIActionException("Got 404 Not found!");
+            case 500: throw new MailcowException("Got 500 Internal Server Error!");
+            default:
+        }
+    }
+
+    /**
+     * Reads the status code and throws an exception for error codes.
+     * @param response
+     */
+    protected void handleStatusCode(Response response) throws MailcowException {
+        handleStatusCode(response.getStatus());
     }
 
     /**
