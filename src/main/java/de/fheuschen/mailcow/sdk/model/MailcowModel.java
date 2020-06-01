@@ -2,6 +2,7 @@ package de.fheuschen.mailcow.sdk.model;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.marker.Deletable;
 import de.fheuschen.mailcow.sdk.marker.Updateable;
 import de.fheuschen.mailcow.sdk.model.outward.ODeletePacket;
@@ -29,12 +30,12 @@ public abstract class MailcowModel implements Deletable, Updateable {
     public abstract String getId();
 
     @Override
-    public boolean delete(Mailcow m) {
+    public boolean delete(Mailcow m) throws MailcowException {
         return m.getClient().performDelete(this, null, this.getDeletePacketById());
     }
 
     @Override
-    public boolean update(Mailcow m) {
+    public boolean update(Mailcow m) throws MailcowException {
         return m.getClient().performPostRequest(endpoint, RequestType.UPDATE, null, this.toOModel(), this.getId()).getStatus() < 400;
     }
 

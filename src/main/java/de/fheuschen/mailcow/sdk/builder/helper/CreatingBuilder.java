@@ -59,7 +59,7 @@ public interface CreatingBuilder<P> extends RawBuilder<P> {
      * Checks for requirements and posts the request to the server.
      * @return whether the creation returned a non-error status code.
      */
-    default boolean _doCreation(Mailcow m) {
+    default boolean _doCreation(Mailcow m) throws MailcowException {
         hardRequirementsFulfilled();
         return m.getClient().performPostRequest(this.getEndpoint(), RequestType.CREATE, null, this.getCreationMap()).getStatus() < BaseClient.ERROR_THRESHOLD;
     }

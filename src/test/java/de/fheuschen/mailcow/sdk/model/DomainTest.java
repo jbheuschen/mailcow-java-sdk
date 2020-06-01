@@ -47,7 +47,7 @@ class DomainTest {
     }
 
     @Test
-    void delete() {
+    void delete() throws MailcowException {
         assertTrue(d.delete(m));
 
         assertThrows(ItemNotFoundException.class, () -> d = new DomainBuilder()
@@ -69,10 +69,11 @@ class DomainTest {
                 .create(m);
         assertNotNull(d);
         assertEquals("Test", d.getDescription());*/
+        throw new UnsupportedOperationException();
     }
 
     @Test
-    void update() {
+    void update() throws MailcowException {
         d.setActiveInt(0);
         assertTrue(d.update(m));
         try {

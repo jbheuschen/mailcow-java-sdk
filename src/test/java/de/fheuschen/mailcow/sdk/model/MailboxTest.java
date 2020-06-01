@@ -6,6 +6,7 @@ import de.fheuschen.mailcow.sdk.builder.DomainBuilder;
 import de.fheuschen.mailcow.sdk.builder.MailboxBuilder;
 import de.fheuschen.mailcow.sdk.exception.ItemNotFoundException;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
+import de.fheuschen.mailcow.sdk.util.QuotaUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,8 +30,16 @@ class MailboxTest {
         }
     }
 
-    void create() {
-        throw new UnsupportedOperationException();
+    @Test
+    void create() throws MailcowException {
+        mb = new MailboxBuilder()
+                .setDomain(MailcowProvider.TEST_DOMAIN)
+                .setLocalPart(MailcowProvider.TEST_MAILBOX_LOCAL)
+                .setPassword(MailcowProvider.TEST_MAILBOX_PASSWORD)
+                .setQuota(QuotaUnit.MB.toMiB(500))
+                .setActive(true)
+                .create(m);
+        assertNotNull(mb);
     }
 
     @Test
@@ -39,7 +48,7 @@ class MailboxTest {
     }
 
     @Test
-    void delete() {
+    void delete() throws MailcowException {
         assertTrue(mb.delete(m));
         assertThrows(ItemNotFoundException.class, () -> mb = new MailboxBuilder()
         .withId(MailcowProvider.TEST_MAILBOX)
@@ -47,7 +56,7 @@ class MailboxTest {
     }
 
     @Test
-    void update() {
+    void update() throws MailcowException {
         mb.setActiveInt(0);
         assertTrue(mb.update(m));
         try {

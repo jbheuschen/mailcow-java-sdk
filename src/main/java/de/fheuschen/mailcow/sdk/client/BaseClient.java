@@ -51,11 +51,11 @@ public abstract class BaseClient {
      * @param params
      * @return
      */
-    public Response performGetRequest(Endpoint<?> endpoint, Map<String, String> params) {
+    public Response performGetRequest(Endpoint<?> endpoint, Map<String, String> params) throws MailcowException {
         WebTarget t = server.path(endpoint.getEndpointUrl());
         for(String key : params.keySet())
             t.queryParam(key, params.getOrDefault(key, ""));
-        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get();
+        return throughout(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get());
     }
 
     /**
@@ -66,12 +66,12 @@ public abstract class BaseClient {
      * @param <T>
      * @return
      */
-    public <T extends MailcowModel> T performGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) throws ItemNotFoundException {
+    public <T extends MailcowModel> T performGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) throws MailcowException {
         WebTarget t = server.path(endpoint.getEndpointUrl() + ((id == null) ? "" : id));
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        return parseToItem(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get().readEntity(String.class), clazz);
+        return parseToItem(throughout(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get()).readEntity(String.class), clazz);
     }
 
     /**
@@ -84,13 +84,13 @@ public abstract class BaseClient {
      * @param <T>
      * @return
      */
-    public <T extends MailcowModel> Response performPostRequest(Endpoint<T> endpoint, RequestType type, Map<String, String> params, OMailcowModel<T> om, String... items) {
+    public <T extends MailcowModel> Response performPostRequest(Endpoint<T> endpoint, RequestType type, Map<String, String> params, OMailcowModel<T> om, String... items) throws MailcowException {
         if(endpoint.writing(type) && !checkReadOnly()) return null;
         WebTarget t = server.path(endpoint.get(type));
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.json(g.toJson(om.wrap(items))));
+        return throughout(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.json(g.toJson(om.wrap(items)))));
     }
 
     /**
@@ -101,13 +101,13 @@ public abstract class BaseClient {
      * @param body
      * @return
      */
-    public Response performPostRequest(Endpoint<?> endpoint, RequestType type, Map<String, String> params, Map<String, Object> body) {
+    public Response performPostRequest(Endpoint<?> endpoint, RequestType type, Map<String, String> params, Map<String, Object> body) throws MailcowException {
         if(endpoint.writing(type) && !checkReadOnly()) return null;
         WebTarget t = server.path(endpoint.get(type));
         if(params != null)
             for(String key: params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.json(g.toJson(body)));
+        return throughout(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.json(g.toJson(body))));
     }
 
     /**
@@ -119,12 +119,12 @@ public abstract class BaseClient {
      * @param <T>
      * @return
      */
-    public <T extends MailcowModel> Collection<T> performMultiGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) {
+    public <T extends MailcowModel> Collection<T> performMultiGetRequest(Endpoint<T> endpoint, Map<String, String> params, Class<T> clazz, String id) throws MailcowException {
         WebTarget t = server.path(endpoint.getEndpointUrl() + ((id == null) ? "" : id));
         if(params != null)
             for(String key : params.keySet())
                 t.queryParam(key, params.getOrDefault(key, ""));
-        Response r = this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get();
+        Response r = throughout(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).get());
         return g.fromJson(r.readEntity(String.class), new TypeToken<ArrayList<T>>() {}.getType());
     }
 
@@ -134,10 +134,10 @@ public abstract class BaseClient {
      * @param params
      * @return
      */
-    public Response performDelete(MailcowModel m, Map<String, Object> params) {
+    public Response performDelete(MailcowModel m, Map<String, Object> params) throws MailcowException {
         if(!checkReadOnly()) return null;
         WebTarget t = server.path(m.getEndpoint().getDeleteEndpointUrl());
-        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.entity(params, MediaType.APPLICATION_JSON));
+        return throughout(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.entity(params, MediaType.APPLICATION_JSON)));
     }
 
     /**
@@ -147,10 +147,10 @@ public abstract class BaseClient {
      * @param p
      * @return
      */
-    public boolean performDelete(MailcowModel m, Map<String, Object> params, ODeletePacket p) {
+    public boolean performDelete(MailcowModel m, Map<String, Object> params, ODeletePacket p) throws MailcowException {
         if(!checkReadOnly()) return false;
         WebTarget t = server.path(m.getEndpoint().get(RequestType.DELETE));
-        return this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.json(p.getObjectForSerialization())).getStatus() < ERROR_THRESHOLD;
+        return throughout(this.doAuthentication(t.request(MediaType.APPLICATION_JSON)).post(Entity.json(p.getObjectForSerialization()))).getStatus() < ERROR_THRESHOLD;
     }
 
     /**
@@ -227,6 +227,12 @@ public abstract class BaseClient {
             case 500: throw new MailcowException("Got 500 Internal Server Error!");
             default:
         }
+    }
+
+    //Pass'n throw
+    private Response throughout(Response r) throws MailcowException {
+        handleStatusCode(r.getStatus());
+        return r;
     }
 
     /**

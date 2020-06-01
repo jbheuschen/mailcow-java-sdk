@@ -137,7 +137,7 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
      */
     @Override
     public Object[] getRequiredFields() {
-
+        // TODO remove
         /*
             Minimal setup:
                 {

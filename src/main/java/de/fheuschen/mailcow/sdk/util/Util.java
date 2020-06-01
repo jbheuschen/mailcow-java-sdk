@@ -19,4 +19,12 @@ public class Util {
                 return true;
         return false;
     }
+
+    public static String b2mB(boolean bool) {
+        return bool ? "1" : "0";
+    }
+
+    public static boolean mB2b(String mailcowBool) {
+        return mailcowBool.equalsIgnoreCase("1");
+    }
 }

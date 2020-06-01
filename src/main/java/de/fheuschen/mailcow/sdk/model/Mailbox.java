@@ -14,6 +14,28 @@ import java.util.Map;
  */
 public class Mailbox extends MailcowModel {
 
+    public static final BaseClient.Endpoint<Mailbox> ENDPOINT = new BaseClient.Endpoint<Mailbox>() {
+        @Override
+        public String getEndpointUrl() {
+            return "get/mailbox/";
+        }
+
+        @Override
+        public String getEditEndpointUrl() {
+            return "edit/mailbox/";
+        }
+
+        @Override
+        public String getDeleteEndpointUrl() {
+            return "delete/mailbox/";
+        }
+
+        @Override
+        public String getAddEndpointUrl() {
+            return "add/mailbox/";
+        }
+    };
+
     int maxNewQuota, isRelayed, activeInt, quotaUsed, percentInUse, messages, spamAliases;
     long quota;
     boolean rl;
@@ -58,6 +80,10 @@ public class Mailbox extends MailcowModel {
         this.local_part = local_part;
         this.percentClass = percentClass;
         this.attributes = attributes;
+    }
+
+    public Mailbox() {
+        super(ENDPOINT);
     }
 
     public int getMaxNewQuota() {
