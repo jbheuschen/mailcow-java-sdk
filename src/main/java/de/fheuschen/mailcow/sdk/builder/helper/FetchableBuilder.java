@@ -15,7 +15,27 @@ import java.util.Collection;
  * @param <B> the implementing class. Required to build the correct builder-style method.
  */
 public interface FetchableBuilder<P extends MailcowModel, I, B extends Builder<P>> extends Builder<P> {
+    /**
+     * Sets the id to be fetched.
+     * @param id the id
+     * @see #fetch(Mailcow)
+     * @return the builder itself
+     */
     B withId(I id);
+
+    /**
+     * Fetches a single item.
+     * @param m the mailcow object
+     * @return the item or null
+     * @throws MailcowException if a severe error occurs
+     */
     P fetch(Mailcow m) throws MailcowException;
+
+    /**
+     * Fetches multiple items.
+     * @param m the mailcow object.
+     * @return a(n empty) list of items.
+     * @throws MailcowException if a severe error occurs.
+     */
     Collection<P> fetchAll(Mailcow m) throws MailcowException;
 }
