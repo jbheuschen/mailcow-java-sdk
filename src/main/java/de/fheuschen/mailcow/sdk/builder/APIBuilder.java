@@ -1,6 +1,7 @@
 package de.fheuschen.mailcow.sdk.builder;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
+import de.fheuschen.mailcow.sdk.builder.helper.RawBuilder;
 
 /**
  * APIBuilder

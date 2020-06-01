@@ -1,4 +1,4 @@
-package de.fheuschen.mailcow.sdk.builder;
+package de.fheuschen.mailcow.sdk.builder.helper;
 
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
 

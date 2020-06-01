@@ -1,14 +1,12 @@
-package de.fheuschen.mailcow.sdk.builder;
+package de.fheuschen.mailcow.sdk.builder.helper;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.BuilderException;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
-import de.fheuschen.mailcow.sdk.model.MailcowModel;
 import de.fheuschen.mailcow.sdk.util.RequestType;
 import de.fheuschen.mailcow.sdk.util.Util;
 
-import javax.ws.rs.core.Response;
 import java.util.Map;
 
 /**

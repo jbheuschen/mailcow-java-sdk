@@ -1,9 +1,12 @@
 package de.fheuschen.mailcow.sdk.builder;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
+import de.fheuschen.mailcow.sdk.builder.helper.FetchableBuilder;
+import de.fheuschen.mailcow.sdk.builder.helper.Validateable;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;
+import de.fheuschen.mailcow.sdk.util.QuotaUnit;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,7 +17,7 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBuilder> {
+public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBuilder>, Validateable {
 
 
 
@@ -51,153 +54,40 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private String identification = Mailcow.ID_ALL;
 
-    public DomainBuilder setMaxNewMailboxQuota(Integer maxNewMailboxQuota) {
-        this.maxNewMailboxQuota = maxNewMailboxQuota;
+    /*
+    More fluent methods
+     */
+
+    /**
+     * Note: required fields are:
+     * <ul>
+     *     <li>domainName</li>
+     *     <li>maxNumAliasesForDomain</li>
+     *     <li>maxNumMboxesForDomain</li>
+     *     <li>defQuotaForMbox</li>
+     *     <li>maxQuotaForMbox</li>
+     *     <li>maxQuotaForDomain</li>
+     *     <li>activeInt</li>
+     * </ul>
+     * @return
+     */
+
+    public DomainBuilder setMaxMailboxQuota(long value, QuotaUnit unit) {
+
         return this;
     }
 
-    public DomainBuilder setDefNewMailboxQuota(Integer defNewMailboxQuota) {
-        this.defNewMailboxQuota = defNewMailboxQuota;
+    public DomainBuilder setDefaultMailboxQuota(long value, QuotaUnit unit) {
+
         return this;
     }
 
-    public DomainBuilder setQuotaUsedInDomain(String quotaUsedInDomain) {
-        this.quotaUsedInDomain = quotaUsedInDomain;
-        return this;
+    public DomainBuilder setDomain(Domain domain) {
+        return setDomain(domain.getId());
     }
 
-    public DomainBuilder setBytesTotal(Integer bytesTotal) {
-        this.bytesTotal = bytesTotal;
-        return this;
-    }
+    public DomainBuilder setDomain(String identification) {
 
-    public DomainBuilder setMsgsTotal(Integer msgsTotal) {
-        this.msgsTotal = msgsTotal;
-        return this;
-    }
-
-    public DomainBuilder setMboxesInDomain(Integer mboxesInDomain) {
-        this.mboxesInDomain = mboxesInDomain;
-        return this;
-    }
-
-    public DomainBuilder setMboxesLeft(Integer mboxesLeft) {
-        this.mboxesLeft = mboxesLeft;
-        return this;
-    }
-
-    public DomainBuilder setDomainName(String domainName) {
-        this.domainName = domainName;
-        return this;
-    }
-
-    public DomainBuilder setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public DomainBuilder setMaxNumAliasesForDomain(Integer maxNumAliasesForDomain) {
-        this.maxNumAliasesForDomain = maxNumAliasesForDomain;
-        return this;
-    }
-
-    public DomainBuilder setMaxNumMboxesForDomain(Integer maxNumMboxesForDomain) {
-        this.maxNumMboxesForDomain = maxNumMboxesForDomain;
-        return this;
-    }
-
-    public DomainBuilder setDefQuotaForMbox(Integer defQuotaForMbox) {
-        this.defQuotaForMbox = defQuotaForMbox;
-        return this;
-    }
-
-    public DomainBuilder setMaxQuotaForMbox(Integer maxQuotaForMbox) {
-        this.maxQuotaForMbox = maxQuotaForMbox;
-        return this;
-    }
-
-    public DomainBuilder setMaxQuotaForDomain(Integer maxQuotaForDomain) {
-        this.maxQuotaForDomain = maxQuotaForDomain;
-        return this;
-    }
-
-    public DomainBuilder setRelayhost(String relayhost) {
-        this.relayhost = relayhost;
-        return this;
-    }
-
-    public DomainBuilder setBackupmx(String backupmx) {
-        this.backupmx = backupmx;
-        return this;
-    }
-
-    public DomainBuilder setGal(String gal) {
-        this.gal = gal;
-        return this;
-    }
-
-    public DomainBuilder setBackupmxInt(Integer backupmxInt) {
-        this.backupmxInt = backupmxInt;
-        return this;
-    }
-
-    public DomainBuilder setGalInt(Integer galInt) {
-        this.galInt = galInt;
-        return this;
-    }
-
-    public DomainBuilder setRl(Boolean rl) {
-        this.rl = rl;
-        return this;
-    }
-
-    public DomainBuilder setActive(String active) {
-        this.active = active;
-        return this;
-    }
-
-    public DomainBuilder setActiveInt(Integer activeInt) {
-        this.activeInt = activeInt;
-        return this;
-    }
-
-    public DomainBuilder setRelayAllRecipients(String relayAllRecipients) {
-        this.relayAllRecipients = relayAllRecipients;
-        return this;
-    }
-
-    public DomainBuilder setRelayUnknownOnly(String relayUnknownOnly) {
-        this.relayUnknownOnly = relayUnknownOnly;
-        return this;
-    }
-
-    public DomainBuilder setRelayAllRecipientsInt(Integer relayAllRecipientsInt) {
-        this.relayAllRecipientsInt = relayAllRecipientsInt;
-        return this;
-    }
-
-    public DomainBuilder setRelayUnknownOnlyInt(Integer relayUnknownOnlyInt) {
-        this.relayUnknownOnlyInt = relayUnknownOnlyInt;
-        return this;
-    }
-
-    public DomainBuilder setAliasesInDomain(Integer aliasesInDomain) {
-        this.aliasesInDomain = aliasesInDomain;
-        return this;
-    }
-
-    public DomainBuilder setAliasesLeft(Integer aliasesLeft) {
-        this.aliasesLeft = aliasesLeft;
-        return this;
-    }
-
-    public DomainBuilder setDomainAdmins(String domainAdmins) {
-        this.domainAdmins = domainAdmins;
-        return this;
-    }
-
-    public DomainBuilder setAdditionalProperties(Map<String, Object> additionalProperties) {
-        this.additionalProperties = additionalProperties;
         return this;
     }
 

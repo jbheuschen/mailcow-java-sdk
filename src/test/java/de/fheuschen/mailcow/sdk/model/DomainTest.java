@@ -57,7 +57,7 @@ class DomainTest {
 
     @Test
     void create() throws MailcowException {
-        d = new DomainBuilder()
+        /*d = new DomainBuilder()
                 .setActiveInt(1)
                 .setDomainName(MailcowProvider.TEST_DOMAIN)
                 .setDescription("Test")
@@ -68,7 +68,7 @@ class DomainTest {
                 .setMaxQuotaForMbox(QuotaUnit.GB.toMiB(1))
                 .create(m);
         assertNotNull(d);
-        assertEquals("Test", d.getDescription());
+        assertEquals("Test", d.getDescription());*/
     }
 
     @Test

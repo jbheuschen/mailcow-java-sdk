@@ -1,6 +1,7 @@
-package de.fheuschen.mailcow.sdk.builder;
+package de.fheuschen.mailcow.sdk.builder.helper;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
+import de.fheuschen.mailcow.sdk.builder.helper.Builder;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
 

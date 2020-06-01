@@ -1,24 +1,17 @@
 package de.fheuschen.mailcow.sdk.annotation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * APISerialization
+ * RequiredField
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-@Deprecated
-public @interface APISerialization {
-
-    String name();
-    String updateName();
-    String createName();
-
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RequiredField {
+    String errorMessage() default "";
 }
