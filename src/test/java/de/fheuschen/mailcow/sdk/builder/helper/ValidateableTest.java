@@ -1,6 +1,8 @@
 package de.fheuschen.mailcow.sdk.builder.helper;
 
-import de.fheuschen.mailcow.sdk.annotation.RequiredField;
+import de.fheuschen.mailcow.sdk.annotation.constraint.Max;
+import de.fheuschen.mailcow.sdk.annotation.constraint.Min;
+import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ValidateableTest {
 
-    class A implements Validateable {
+    static class A implements Validateable {
 
         @RequiredField
         private String test;
@@ -45,11 +47,25 @@ class ValidateableTest {
         }
     }
 
+    static class B implements Validateable {
+        @Min(min = 5D)
+        int min;
+
+        @Max(max = 10D)
+        int max;
+
+        public boolean validate() {
+            return this._selfValidate();
+        }
+    }
+
     A a;
+    B b;
 
     @BeforeEach
     void setUp() {
         a = new A();
+        b = new B();
     }
 
     @Test
@@ -70,6 +86,15 @@ class ValidateableTest {
         assertTrue(a.validate());
     }
 
+    @Test
+    void testMin() {
+        b.max = 6;
+        b.min = 3;
+        assertFalse(b.validate());
+        b.min = 6;
+        b.max = 3;
+        assertTrue(b.validate());
+    }
 
 
 }
