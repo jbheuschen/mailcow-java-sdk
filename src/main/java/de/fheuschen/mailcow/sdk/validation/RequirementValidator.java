@@ -1,8 +1,6 @@
 package de.fheuschen.mailcow.sdk.validation;
 
-import de.fheuschen.mailcow.sdk.annotation.constraint.Max;
-import de.fheuschen.mailcow.sdk.annotation.constraint.Min;
-import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
+import de.fheuschen.mailcow.sdk.annotation.constraint.*;
 import de.fheuschen.mailcow.sdk.exception.ValidationException;
 
 import java.lang.annotation.Annotation;
@@ -41,58 +39,52 @@ public class RequirementValidator<T extends Validateable> {
      */
     private void init() {
         validators = new HashMap<>();
-        validators.put(RequiredField.class, (t, annotation, f, clazz) -> {
-
-            try {
-                return f.get(t) != null;
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            return false;
-        });
+        validators.put(RequiredField.class, (t, annotation, f, clazz) -> f.get(t) != null);
         validators.put(Min.class, (t, annotation, f, clazz) -> {
             Min min = (Min) annotation;
-            try {
-                Object o = f.get(t);
-                if(o instanceof Integer) {
-                    return ((int)o) > min.min();
-                } else if(o instanceof Long) {
-                    return ((long)o) > min.min();
-                } else if(o instanceof Double) {
-                    return ((double)o) > min.min();
-                } else if(o instanceof Float) {
-                    return ((float)o) > min.min();
-                } else if(o instanceof Short) {
-                    return ((short)o) > min.min();
-                } else {
-                    System.err.println("Note: @Min was applied to a field containing neither int, long, double nor short.");
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+
+            Object o = f.get(t);
+            if(o instanceof Integer) {
+                return ((int)o) > min.min();
+            } else if(o instanceof Long) {
+                return ((long)o) > min.min();
+            } else if(o instanceof Double) {
+                return ((double)o) > min.min();
+            } else if(o instanceof Float) {
+                return ((float)o) > min.min();
+            } else if(o instanceof Short) {
+                return ((short)o) > min.min();
+            } else {
+                System.err.println("Note: @Min was applied to a field containing neither int, long, double nor short.");
             }
+
             return false;
         });
         validators.put(Max.class, (t, annotation, f, clazz) -> {
             Max max = (Max) annotation;
-            try {
-                Object o = f.get(t);
-                if(o instanceof Integer) {
-                    return ((int)o) < max.max();
-                } else if(o instanceof Long) {
-                    return ((long)o) < max.max();
-                } else if(o instanceof Double) {
-                    return ((double)o) < max.max();
-                } else if(o instanceof Float) {
-                    return ((float)o) < max.max();
-                } else if(o instanceof Short) {
-                    return ((short)o) < max.max();
-                } else {
-                    System.err.println("Note: @Max was applied to a field containing neither int, long, double nor short.");
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            Object o = f.get(t);
+            if(o instanceof Integer) {
+                return ((int)o) < max.max();
+            } else if(o instanceof Long) {
+                return ((long)o) < max.max();
+            } else if(o instanceof Double) {
+                return ((double)o) < max.max();
+            } else if(o instanceof Float) {
+                return ((float)o) < max.max();
+            } else if(o instanceof Short) {
+                return ((short)o) < max.max();
+            } else {
+                System.err.println("Note: @Max was applied to a field containing neither int, long, double nor short.");
             }
             return false;
+        });
+        validators.put(StringBool.class, (t, annotation, f, clazz) -> f.get(t).toString().equalsIgnoreCase("true") || f.get(t).toString().equalsIgnoreCase("false") ||
+                f.get(t).toString().equalsIgnoreCase("1") || f.get(t).toString().equalsIgnoreCase("0"));
+        validators.put(Length.class, (t, annotation, f, clazz) -> {
+            Length l = (Length) annotation;
+            String s = f.get(t).toString();
+            return ((l.min() > -1 && l.max() > -1) ? s.length() > l.min() && s.length() < l.max() :
+                    (l.min() > -1) ? s.length() > l.min() : s.length() < l.max());
         });
     }
 
@@ -117,8 +109,11 @@ public class RequirementValidator<T extends Validateable> {
                     if (f.isAnnotationPresent(cl)) {
                         if(!f.canAccess(t))
                             f.setAccessible(true);
-                        if (!validators.get(cl).validate(t, f.getDeclaredAnnotation(cl), f, clazz)) {
-                            throw new ValidationException("\"" + f.getName() + "\" does not meet all requirements!");
+                        try {
+                            if (!validators.get(cl).validate(t, f.getDeclaredAnnotation(cl), f, clazz)) {
+                                throw new ValidationException("\"" + f.getName() + "\" does not meet all requirements!");
+                            }
+                        } catch(IllegalAccessException ignored) {
                         }
                     }
                 }

@@ -1,8 +1,6 @@
 package de.fheuschen.mailcow.sdk.builder.helper;
 
-import de.fheuschen.mailcow.sdk.annotation.constraint.Max;
-import de.fheuschen.mailcow.sdk.annotation.constraint.Min;
-import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
+import de.fheuschen.mailcow.sdk.annotation.constraint.*;
 import de.fheuschen.mailcow.sdk.validation.Validateable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,11 +60,13 @@ class ValidateableTest {
 
     A a;
     B b;
+    C c;
 
     @BeforeEach
     void setUp() {
         a = new A();
         b = new B();
+        c = new C();
     }
 
     @Test
@@ -95,6 +95,37 @@ class ValidateableTest {
         b.min = 6;
         b.max = 3;
         assertTrue(b.validate());
+    }
+
+    static class C implements Validateable {
+        @Length(min = 3, max = 7)
+        String a = "abcd";
+        @StringBool
+        String b = "false";
+
+        public boolean validate() {
+            return this._selfValidate();
+        }
+    }
+
+    @Test
+    void stringBool() {
+        assertTrue(c.validate());
+        c.b = "fdlsfjklsdfj";
+        assertFalse(c.validate());
+        c.b = "0";
+        assertTrue(c.validate());
+    }
+
+    @Test
+    void length() {
+        assertTrue(c.validate());
+        c.a = "one";
+        assertFalse(c.validate());
+        c.a = "onetwo";
+        assertTrue(c.validate());
+        c.a = "onetwothree";
+        assertFalse(c.validate());
     }
 
 

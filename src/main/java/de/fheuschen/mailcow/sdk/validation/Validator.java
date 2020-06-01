@@ -10,6 +10,6 @@ import java.lang.reflect.Field;
  */
 public interface Validator<T, A extends Annotation> {
 
-    boolean validate(T t, A a, Field f, Class<T> clazz);
+    boolean validate(T t, A a, Field f, Class<T> clazz) throws IllegalAccessException;
 
 }
