@@ -1,4 +1,4 @@
-package de.fheuschen.mailcow.sdk.builder.helper;
+package de.fheuschen.mailcow.sdk.validation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

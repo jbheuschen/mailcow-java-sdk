@@ -1,4 +1,4 @@
-package de.fheuschen.mailcow.sdk.builder.helper;
+package de.fheuschen.mailcow.sdk.validation;
 
 import de.fheuschen.mailcow.sdk.exception.ValidationException;
 import de.fheuschen.mailcow.sdk.util.ValidatorRegistry;

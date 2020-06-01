@@ -1,5 +1,7 @@
 package de.fheuschen.mailcow.sdk.annotation.constraint;
 
+import de.fheuschen.mailcow.sdk.validation.RequirementValidator;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -8,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * Min
  * Marks that a numeric field within a Validateable must have a value higher than min.
- * @see de.fheuschen.mailcow.sdk.builder.helper.RequirementValidator
+ * @see RequirementValidator
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
 @Target(ElementType.FIELD)

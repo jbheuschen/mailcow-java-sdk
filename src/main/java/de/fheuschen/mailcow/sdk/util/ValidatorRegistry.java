@@ -1,7 +1,7 @@
 package de.fheuschen.mailcow.sdk.util;
 
-import de.fheuschen.mailcow.sdk.builder.helper.RequirementValidator;
-import de.fheuschen.mailcow.sdk.builder.helper.Validateable;
+import de.fheuschen.mailcow.sdk.validation.RequirementValidator;
+import de.fheuschen.mailcow.sdk.validation.Validateable;
 
 import java.util.HashMap;
 import java.util.Map;

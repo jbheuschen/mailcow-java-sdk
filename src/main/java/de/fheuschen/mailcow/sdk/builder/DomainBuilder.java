@@ -2,7 +2,7 @@ package de.fheuschen.mailcow.sdk.builder;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.builder.helper.FetchableBuilder;
-import de.fheuschen.mailcow.sdk.builder.helper.Validateable;
+import de.fheuschen.mailcow.sdk.validation.Validateable;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;

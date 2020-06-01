@@ -3,6 +3,7 @@ package de.fheuschen.mailcow.sdk.builder.helper;
 import de.fheuschen.mailcow.sdk.annotation.constraint.Max;
 import de.fheuschen.mailcow.sdk.annotation.constraint.Min;
 import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
+import de.fheuschen.mailcow.sdk.validation.Validateable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
