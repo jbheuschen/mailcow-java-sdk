@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Length
  * Limits the length of a string. In order for this annotation to be useful, you have to provide either the min or the max property
- * with a value greater than zero.
+ * with a value greater than or equal to zero.
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
 @Target(ElementType.FIELD)
@@ -16,6 +16,11 @@ import java.lang.annotation.Target;
 public @interface Length {
 
     int min() default -1;
+
+    /**
+     * If this one is set to a non-negative integer, min() and max() will be ignored!
+     */
+    int equals() default -1;
     int max() default -1;
 
 }

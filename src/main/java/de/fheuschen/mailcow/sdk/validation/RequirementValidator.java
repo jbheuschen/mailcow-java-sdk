@@ -83,8 +83,9 @@ public class RequirementValidator<T extends Validateable> {
         validators.put(Length.class, (t, annotation, f, clazz) -> {
             Length l = (Length) annotation;
             String s = f.get(t).toString();
-            return ((l.min() > -1 && l.max() > -1) ? s.length() > l.min() && s.length() < l.max() :
-                    (l.min() > -1) ? s.length() > l.min() : s.length() < l.max());
+            return ((l.equals() > -1) ? l.equals() == s.length() : (l.min() > -1 && l.max() > -1) ?
+                    s.length() > l.min() && s.length() < l.max() : (l.min() > -1) ? s.length() > l.min()
+                    : s.length() < l.max());
         });
     }
 
