@@ -13,7 +13,6 @@ import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.model.Mailbox;
 import de.fheuschen.mailcow.sdk.util.Util;
 import de.fheuschen.mailcow.sdk.validation.Validateable;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,114 +22,110 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class MailboxBuilder implements FetchableBuilder<Mailbox, String, MailboxBuilder>, Validateable {
+public class MailboxBuilder
+    implements FetchableBuilder<Mailbox, String, MailboxBuilder>, Validateable {
 
-    @RequiredField
-    private String localPart;
+  @RequiredField private String localPart;
 
-    @RequiredField
-    private String domain;
+  @RequiredField private String domain;
 
-    @NotRequiredField
-    private String fullName;
+  @NotRequiredField private String fullName;
 
-    @Length(min = 8)
-    private String password;
+  @Length(min = 8) private String password;
 
-    @Length(min = 8)
-    private String password2;
+  @Length(min = 8) private String password2;
 
-    @RequiredField
-    private boolean active = true;
+  @RequiredField private boolean active = true;
 
-    @RequiredField
-    @Min(min = 1)
-    private long quota;
+  @RequiredField @Min(min = 1) private long quota;
 
+  private String identification = Mailcow.ID_ALL;
 
-    private String identification = Mailcow.ID_ALL;
+  public MailboxBuilder setLocalPart(String localPart) {
+    this.localPart = localPart;
+    return this;
+  }
 
-    public MailboxBuilder setLocalPart(String localPart) {
-        this.localPart = localPart;
-        return this;
+  public MailboxBuilder setDomain(Domain d) {
+    return this.setDomain(d.getId());
+  }
+
+  public MailboxBuilder setDomain(String domain) {
+    this.domain = domain;
+    return this;
+  }
+
+  public MailboxBuilder setPassword(String password) {
+    this.password = password;
+    this.password2 = password;
+    return this;
+  }
+
+  public MailboxBuilder setActive(boolean active) {
+    this.active = active;
+    return this;
+  }
+
+  public MailboxBuilder setQuota(long quota) {
+    this.quota = quota;
+    return this;
+  }
+
+  @Override
+  @Deprecated
+  public Mailbox build() {
+    return new Mailbox();
+  }
+
+  @Override
+  public MailboxBuilder withId(String id) {
+    this.identification = id;
+    return this;
+  }
+
+  @Override
+  public Mailbox fetch(Mailcow m) throws MailcowException {
+    if (this.identification == null)
+      throw new IllegalStateException(
+          "You must provide an id you want to fetch.");
+    return m.getClient().performGetRequest(Mailbox.ENDPOINT, null,
+                                           Mailbox.class, this.identification);
+  }
+
+  @Override
+  public Collection<Mailbox> fetchAll(Mailcow m) throws MailcowException {
+    return m.getClient().performMultiGetRequest(Mailbox.ENDPOINT, null,
+                                                Mailbox.class, Mailcow.ID_ALL);
+  }
+
+  @Override
+  public Mailbox create(Mailcow m) throws MailcowException {
+    if (this._doCreation(m)) {
+      Mailbox t = this.withId(localPart + "@" + domain).fetch(m);
+      if (t == null)
+        throw new ItemCreationFailedException(
+            "Item creation failed due to an unknown error.");
+      return t;
     }
+    return null;
+  }
 
-    public MailboxBuilder setDomain(Domain d) {
-        return this.setDomain(d.getId());
-    }
+  @Override
+  public Map<String, Object> getCreationMap() {
+    Map<String, Object> m = new HashMap<>();
 
-    public MailboxBuilder setDomain(String domain) {
-        this.domain = domain;
-        return this;
-    }
+    m.put("local_part", this.localPart);
+    m.put("domain", this.domain);
+    m.put("quota", this.quota);
+    m.put("password", this.password);
+    m.put("password2", this.password2);
+    m.put("active", Util.b2mB(this.active));
 
-    public MailboxBuilder setPassword(String password) {
-        this.password = password;
-        this.password2 = password;
-        return this;
-    }
+    return m;
+  }
 
-    public MailboxBuilder setActive(boolean active) {
-        this.active = active;
-        return this;
-    }
-
-    public MailboxBuilder setQuota(long quota) {
-        this.quota = quota;
-        return this;
-    }
-
-    @Override
-    @Deprecated
-    public Mailbox build() {
-        return new Mailbox();
-    }
-
-    @Override
-    public MailboxBuilder withId(String id) {
-        this.identification = id;
-        return this;
-    }
-
-    @Override
-    public Mailbox fetch(Mailcow m) throws MailcowException {
-        if(this.identification == null)
-            throw new IllegalStateException("You must provide an id you want to fetch.");
-        return m.getClient().performGetRequest(Mailbox.ENDPOINT, null, Mailbox.class, this.identification);
-    }
-
-    @Override
-    public Collection<Mailbox> fetchAll(Mailcow m) throws MailcowException {
-        return m.getClient().performMultiGetRequest(Mailbox.ENDPOINT, null, Mailbox.class, Mailcow.ID_ALL);
-    }
-
-    @Override
-    public Mailbox create(Mailcow m) throws MailcowException {
-        if(this._doCreation(m)) {
-            Mailbox t = this.withId(localPart + "@" + domain).fetch(m);
-            if(t == null)
-                throw new ItemCreationFailedException("Item creation failed due to an unknown error.");
-            return t;
-        }
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> getCreationMap() {
-        Map<String, Object> m = new HashMap<>();
-
-        m.put("local_part", this.localPart);
-        m.put("domain", this.domain);
-        m.put("quota", this.quota);
-        m.put("password", this.password);
-        m.put("password2", this.password2);
-        m.put("active", Util.b2mB(this.active));
-
-        return m;
-    }
-
-    @Override
-    public BaseClient.Endpoint<?> getEndpoint() {
-        return Mailbox.ENDPOINT;
-    }
+  @Override
+  public BaseClient.Endpoint<?> getEndpoint() {
+    return Mailbox.ENDPOINT;
+  }
 }
