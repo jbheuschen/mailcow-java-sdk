@@ -210,7 +210,7 @@ public abstract class BaseClient {
      */
     protected <T extends MailcowModel> T parseToItem(String json, Class<T> clazz) throws ItemNotFoundException {
         T t = g.fromJson(json, clazz);
-        if(t == null || json.trim().equalsIgnoreCase(EMPTY_RESULT))
+        if(t == null || json.trim().equalsIgnoreCase(EMPTY_RESULT) || json.isBlank())
             throw new ItemNotFoundException("Item not found");
         return t;
     }

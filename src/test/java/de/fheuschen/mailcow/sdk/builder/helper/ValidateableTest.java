@@ -100,6 +100,8 @@ class ValidateableTest {
     static class C implements Validateable {
         @Length(min = 3, max = 7)
         String a = "abcd";
+        @Length(equals = 5)
+        String c = "12345";
         @StringBool
         String b = "false";
 
@@ -126,6 +128,17 @@ class ValidateableTest {
         assertTrue(c.validate());
         c.a = "onetwothree";
         assertFalse(c.validate());
+    }
+
+    @Test
+    void equals() {
+        assertTrue(c.validate());
+        c.c = "1";
+        assertFalse(c.validate());
+        c.c = "1234567";
+        assertFalse(c.validate());
+        c.c = "12345";
+        assertTrue(c.validate());
     }
 
 
