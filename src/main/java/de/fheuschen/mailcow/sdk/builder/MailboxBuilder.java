@@ -7,6 +7,7 @@ import de.fheuschen.mailcow.sdk.annotation.constraint.NotRequiredField;
 import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
 import de.fheuschen.mailcow.sdk.builder.helper.FetchableBuilder;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.exception.ItemCreationFailedException;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.model.Mailbox;
@@ -33,10 +34,10 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
     @NotRequiredField
     private String fullName;
 
-    @Length(min = 1)
+    @Length(min = 8)
     private String password;
 
-    @Length(min = 1)
+    @Length(min = 8)
     private String password2;
 
     @RequiredField
@@ -106,7 +107,10 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
     @Override
     public Mailbox create(Mailcow m) throws MailcowException {
         if(this._doCreation(m)) {
-            return this.withId(localPart + "@" + domain).fetch(m);
+            Mailbox t = this.withId(localPart + "@" + domain).fetch(m);
+            if(t == null)
+                throw new ItemCreationFailedException("Item creation failed due to an unknown error.");
+            return t;
         }
         return null;
     }

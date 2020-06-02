@@ -1,6 +1,7 @@
 package de.fheuschen.mailcow.sdk;
 
 import de.fheuschen.mailcow.sdk.builder.APIBuilder;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +10,7 @@ class MailcowTest {
 
     private Mailcow m;
 
-    @org.junit.jupiter.api.BeforeEach
+    @BeforeEach
     void setUp() {
         m = new APIBuilder()
                 .setApiKey(MailcowProvider.API_KEY)

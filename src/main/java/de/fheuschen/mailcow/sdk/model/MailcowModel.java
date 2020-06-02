@@ -36,7 +36,7 @@ public abstract class MailcowModel implements Deletable, Updateable {
 
     @Override
     public boolean update(Mailcow m) throws MailcowException {
-        return m.getClient().performPostRequest(endpoint, RequestType.UPDATE, null, this.toOModel(), this.getId()).getStatus() < 400;
+        return m.getClient().performPostRequest(endpoint, RequestType.UPDATE, null, this.toOModel(), this.getId()).getStatus() < BaseClient.ERROR_THRESHOLD;
     }
 
     public abstract OMailcowModel toOModel();

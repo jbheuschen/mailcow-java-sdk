@@ -1,6 +1,7 @@
 package de.fheuschen.mailcow.sdk;
 
 import de.fheuschen.mailcow.sdk.builder.APIBuilder;
+import de.fheuschen.mailcow.sdk.model.Domain;
 
 /**
  * MailcowProvider
@@ -14,7 +15,7 @@ public class MailcowProvider {
     public static final String TEST_DOMAIN = "mjs.local";
     public static final String TEST_MAILBOX = "test@mjs.local";
     public static final String TEST_MAILBOX_LOCAL = "test";
-    public static final String TEST_MAILBOX_PASSWORD = "test";
+    public static final String TEST_MAILBOX_PASSWORD = "dacja39wj9wa";
     public static String API_KEY = "0FE593-F6ED2F-394793-0717CC-1E8A37";
     public static String API_URL = "http://localhost:82";
 
@@ -34,6 +35,10 @@ public class MailcowProvider {
                     .build();
         }
         return m;
+    }
+
+    public static Domain createOrGetTestDomain() {
+        throw new UnsupportedOperationException("NYI");
     }
 
 }
