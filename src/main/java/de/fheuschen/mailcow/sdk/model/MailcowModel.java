@@ -15,38 +15,38 @@ import de.fheuschen.mailcow.sdk.util.RequestType;
  */
 public abstract class MailcowModel implements Deletable, Updateable {
 
-    final transient BaseClient.Endpoint<?> endpoint;
+  final transient BaseClient.Endpoint<?> endpoint;
 
-    public static BaseClient.Endpoint ENDPOINT = null;
+  public static BaseClient.Endpoint ENDPOINT = null;
 
-    public MailcowModel(BaseClient.Endpoint<?> endpoint) {
-        this.endpoint = endpoint;
-    }
+  public MailcowModel(BaseClient.Endpoint<?> endpoint) {
+    this.endpoint = endpoint;
+  }
 
-    public BaseClient.Endpoint<?> getEndpoint() {
-        return endpoint;
-    }
+  public BaseClient.Endpoint<?> getEndpoint() { return endpoint; }
 
-    public abstract String getId();
+  public abstract String getId();
 
-    @Override
-    public boolean delete(Mailcow m) throws MailcowException {
-        return m.getClient().performDelete(this, null, this.getDeletePacketById());
-    }
+  @Override
+  public boolean delete(Mailcow m)throws MailcowException {
+    return m.getClient().performDelete(this, null, this.getDeletePacketById());
+  }
 
-    @Override
-    public boolean update(Mailcow m) throws MailcowException {
-        return m.getClient().performPostRequest(endpoint, RequestType.UPDATE, null, this.toOModel(), this.getId()).getStatus() < BaseClient.ERROR_THRESHOLD;
-    }
+  @Override
+  public boolean update(Mailcow m) throws MailcowException {
+    return m.getClient()
+               .performPostRequest(endpoint, RequestType.UPDATE, null,
+                                   this.toOModel(), this.getId())
+               .getStatus() < BaseClient.ERROR_THRESHOLD;
+  }
 
-    public abstract OMailcowModel toOModel();
+  public abstract OMailcowModel toOModel();
 
-    protected ODeletePacket getDeletePacketById() {
-        return new ODeletePacket(this.getId());
-    }
+  protected ODeletePacket getDeletePacketById() {
+    return new ODeletePacket(this.getId());
+  }
 
-    protected ODeletePacket mergeOwnDeletePacket(ODeletePacket with) {
-        return with.mergeWith(this.getDeletePacketById());
-    }
-
+  protected ODeletePacket mergeOwnDeletePacket(ODeletePacket with) {
+    return with.mergeWith(this.getDeletePacketById());
+  }
 }
