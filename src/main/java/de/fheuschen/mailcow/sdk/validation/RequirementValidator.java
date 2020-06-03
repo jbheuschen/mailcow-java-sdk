@@ -87,6 +87,10 @@ public class RequirementValidator<T extends Validateable> {
                     s.length() > l.min() && s.length() < l.max() : (l.min() > -1) ? s.length() > l.min()
                     : s.length() < l.max());
         });
+        validators.put(RegExp.class, (t, annotation, f, clazz) -> {
+            RegExp r = (RegExp) annotation;
+            return f.get(t).toString().matches(r.regExp());
+        });
     }
 
     /**
