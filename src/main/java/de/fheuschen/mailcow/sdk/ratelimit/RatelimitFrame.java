@@ -18,4 +18,8 @@ public enum RatelimitFrame {
     public char getSign() {
         return sign;
     }
+
+    public Ratelimit with(long value) {
+        return new Ratelimit(value, this);
+    }
 }

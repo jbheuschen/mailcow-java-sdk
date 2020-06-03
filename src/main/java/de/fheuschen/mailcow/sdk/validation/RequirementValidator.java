@@ -94,7 +94,7 @@ public class RequirementValidator<T extends Validateable> {
     }
 
     /**
-     * This method analyses the instances passed to it and throw a validation exception as soon as at least one constraint is violated.
+     * This method analyses the instances passed to it and throws a validation exception as soon as at least one constraint is violated.
      *
      * Note: If you have a SecurityManager that is configured to deny reflection-access to private members,
      * this class cannot perform the necessary checks on those fields. For said fields, this method will
