@@ -87,6 +87,10 @@ public class Mailbox extends MailcowModel {
         super(ENDPOINT);
     }
 
+    public String getChangedPassword() {
+        return null;
+    }
+
     public int getMaxNewQuota() {
         return maxNewQuota;
     }
