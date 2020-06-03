@@ -9,17 +9,19 @@ import de.fheuschen.mailcow.sdk.model.outward.ODeletePacket;
 import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 import de.fheuschen.mailcow.sdk.util.RequestType;
 
+import java.io.Serializable;
+
 /**
  * MailcowModel
  * This class is the super-class to all mailcow models and one of the fundamental classes of this sdk. It contains several
  * abstract methods for all models to implement (e.g., identification or deletion) as well as pre-implemented methods for item
  * deletion and updating.
  * All non-private, non-static fields within this class are marked as transient, and thus not affecting serialization.
- * This class implements the {@code Deletable} and {@code Updateable} interfaces which makes it possible to pass mailcow models
+ * This class implements the <code>Deletable</code> and <code>Updateable</code> interfaces which makes it possible to pass mailcow models
  * of any kind just as Deletable, Updateable (or MailcowModel), depending on what you need it for.
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public abstract class MailcowModel implements Deletable, Updateable {
+public abstract class MailcowModel implements Deletable, Updateable, Serializable {
 
     final transient BaseClient.Endpoint<?> endpoint;
 

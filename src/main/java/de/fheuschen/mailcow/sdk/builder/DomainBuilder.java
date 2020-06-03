@@ -220,7 +220,7 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
         Map<String, Object> m = new HashMap<>();
         m.put("domain", this.domain);
         m.put("description", this.description);
-        m.put("aliases", this.description);
+        m.put("aliases", this.aliases);
         m.put("mailboxes", this.mailboxes);
         m.put("defquota", this.defaultQuota);
         m.put("maxquota", this.maxQuota);
