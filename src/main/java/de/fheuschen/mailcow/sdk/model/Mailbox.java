@@ -2,6 +2,7 @@ package de.fheuschen.mailcow.sdk.model;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.marker.Attributable;
 import de.fheuschen.mailcow.sdk.model.outward.OMailbox;
 import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class Mailbox extends MailcowModel {
+public class Mailbox extends MailcowModel implements Attributable<String, String> {
 
     public static final BaseClient.Endpoint<Mailbox> ENDPOINT = new BaseClient.Endpoint<Mailbox>() {
         @Override
@@ -227,5 +228,25 @@ public class Mailbox extends MailcowModel {
     @Override
     public OMailbox toOModel() {
         return new OMailbox(this);
+    }
+
+    @Override
+    public boolean hasAttribute(String key) {
+        return attributes.containsKey(key);
+    }
+
+    @Override
+    public String getAttribute(String key) {
+        return attributes.get(key);
+    }
+
+    @Override
+    public String getAttribute(String key, String def) {
+        return attributes.getOrDefault(key, def);
+    }
+
+    @Override
+    public void setAttribute(String key, String value) {
+        attributes.put(key, value);
     }
 }

@@ -1,6 +1,7 @@
 package de.fheuschen.mailcow.sdk.model.outward;
 
 import de.fheuschen.mailcow.sdk.model.Mailbox;
+import de.fheuschen.mailcow.sdk.util.Attributes;
 
 import java.util.Arrays;
 
@@ -12,6 +13,7 @@ import java.util.Arrays;
 public class OMailbox extends OMailcowModel<Mailbox> {
 
     String name, quota, password, password2, active, force_pw_update, sogo_access;
+    String[] sender_acl;
 
     public OMailbox(Mailbox m) {
         super(m);
@@ -20,8 +22,9 @@ public class OMailbox extends OMailcowModel<Mailbox> {
         this.password = m.getChangedPassword();
         this.password2 = m.getChangedPassword();
         this.active = m.getActive();
-        this.force_pw_update = null;
-        this.sogo_access = null;
+        this.force_pw_update = m.getAttribute(Attributes.MB_FORCE_PW_UPDATE);
+        this.sogo_access = m.getAttribute(Attributes.MB_SOGO_ACCESS);
+        this.sender_acl = null;
     }
 
     @Override
