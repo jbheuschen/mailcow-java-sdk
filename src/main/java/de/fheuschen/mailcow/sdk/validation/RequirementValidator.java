@@ -17,10 +17,10 @@ import java.util.Map;
  * own dedicated map of classes and validators; thus, it should be reused (e.g., by using the ValidatorRegistry class).
  *
  * @param <T> the type to perform checks on. Must implement Validateable.
- * @see Validateable
+ * @see Validatable
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class RequirementValidator<T extends Validateable> {
+public class RequirementValidator<T extends Validatable> {
 
     private final Class<T> clazz;
     private Map<Class<? extends Annotation>, Validator<T, Annotation>> validators;

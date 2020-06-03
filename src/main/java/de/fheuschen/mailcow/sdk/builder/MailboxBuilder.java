@@ -12,7 +12,7 @@ import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.model.Mailbox;
 import de.fheuschen.mailcow.sdk.util.Util;
-import de.fheuschen.mailcow.sdk.validation.Validateable;
+import de.fheuschen.mailcow.sdk.validation.Validatable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class MailboxBuilder implements FetchableBuilder<Mailbox, String, MailboxBuilder>, Validateable {
+public class MailboxBuilder implements FetchableBuilder<Mailbox, String, MailboxBuilder>, Validatable {
 
     @RequiredField
     private String localPart;

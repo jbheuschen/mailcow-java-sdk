@@ -11,7 +11,7 @@ import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.ratelimit.Ratelimit;
 import de.fheuschen.mailcow.sdk.ratelimit.RatelimitFrame;
 import de.fheuschen.mailcow.sdk.util.Util;
-import de.fheuschen.mailcow.sdk.validation.Validateable;
+import de.fheuschen.mailcow.sdk.validation.Validatable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,21 +22,7 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBuilder>, Validateable {
-
-    /**
-     * Note: required fields are:
-     * <ul>
-     *     <li>domainName</li>
-     *     <li>maxNumAliasesForDomain</li>
-     *     <li>maxNumMboxesForDomain</li>
-     *     <li>defQuotaForMbox</li>
-     *     <li>maxQuotaForMbox</li>
-     *     <li>maxQuotaForDomain</li>
-     *     <li>activeInt</li>
-     * </ul>
-     * @return
-     */
+public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBuilder>, Validatable {
 
     @RequiredField
     @Length(min = 2)
@@ -45,9 +31,11 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
     private String description;
 
     @RequiredField
+    @Min(min = 1)
     private int aliases;
 
     @RequiredField
+    @Min(min = 1)
     private int mailboxes;
 
     @RequiredField
@@ -76,57 +64,120 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
     More fluent methods
      */
 
+    /**
+     * Sets the desired domain name. Must be a valid dns name (e.g., <i>google.com</i> or <i>test.fheuschen.de</i>). Must not be null.
+     * Required.
+     * @param domain the domain name
+     * @return this
+     */
     public DomainBuilder setDomainName(String domain) {
         this.domain = domain;
         return this;
     }
 
+    /**
+     * Sets the domain description.
+     * @param description the description. Visible in the Mailcow UI.
+     * @return this
+     */
     public DomainBuilder setDescription(String description) {
         this.description = description;
         return this;
     }
 
+    /**
+     * Sets the max amount of aliases for this domain. Must be a value greater than zero.
+     * Required.
+     * @param aliases the max amount of aliases.
+     * @return this
+     */
     public DomainBuilder setMaxAliases(int aliases) {
         this.aliases = aliases;
         return this;
     }
 
+    /**
+     * Sets the max amount of mailboxes for this domain. Must be a value greater than zero.
+     * Required.
+     * @param mailboxes the max amount of mailboxes.
+     * @return this
+     */
     public DomainBuilder setMaxMailboxes(int mailboxes) {
         this.mailboxes = mailboxes;
         return this;
     }
 
+    /**
+     * Sets the default quota for a mailbox within this domain. Must be a value greater than zero but smaller or equal to the max quota.
+     * @param defaultQuota the quota.
+     * @see de.fheuschen.mailcow.sdk.util.QuotaUnit
+     * @return this
+     */
     public DomainBuilder setDefaultMailboxQuota(long defaultQuota) {
         this.defaultQuota = defaultQuota;
         return this;
     }
 
+    /**
+     * Sets the max quota for a mailbox within this domain. Must be a value greater than zero but smaller or equal to the max domain quota.
+     * @param maxQuota the quota.
+     * @see de.fheuschen.mailcow.sdk.util.QuotaUnit
+     * @return this
+     */
     public DomainBuilder setMaxMailboxQuota(long maxQuota) {
         this.maxQuota = maxQuota;
         return this;
     }
 
+    /**
+     * Sets the max quota for this domain. Must be a value greater than zero.
+     * @param domainQuota the quota.
+     * @see de.fheuschen.mailcow.sdk.util.QuotaUnit
+     * @return this
+     */
     public DomainBuilder setDomainQuota(long domainQuota) {
         this.domainQuota = domainQuota;
         return this;
     }
 
+    /**
+     * Sets whether this domain is active or inactive (i.e., mailboxes of this domain cannot be used and emails are rejected).
+     * @param active true/false
+     * @return this
+     */
     public DomainBuilder setActive(boolean active) {
         this.active = active;
         return this;
     }
 
+    /**
+     * Sets the ratelimit for this domain. Use {@code Ratelimit.INFINITE} to disable the ratelimit.
+     * @param r the ratelimit
+     * @see Ratelimit#INFINITE
+     * @see Ratelimit
+     * @return this
+     */
     public DomainBuilder setRatelimit(Ratelimit r) {
         this.rlFrame = r.frame;
         this.rlValue = r.value;
         return this;
     }
 
+    /**
+     * Sets whether this server functions as a backup mx.
+     * @param backupmx true/false
+     * @return this
+     */
     public DomainBuilder setBackupmx(boolean backupmx) {
         this.backupmx = backupmx;
         return this;
     }
 
+    /**
+     *
+     * @param relayAllRecipients true/false
+     * @return this
+     */
     public DomainBuilder setRelayAllRecipients(boolean relayAllRecipients) {
         this.relayAllRecipients = relayAllRecipients;
         return this;
@@ -164,24 +215,6 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
         return null;
     }
 
-    /**
-     * Note: required fields are:
-     * <ul>
-     *     <li>domainName</li>
-     *     <li>maxNumAliasesForDomain</li>
-     *     <li>maxNumMboxesForDomain</li>
-     *     <li>defQuotaForMbox</li>
-     *     <li>maxQuotaForMbox</li>
-     *     <li>maxQuotaForDomain</li>
-     *     <li>activeInt</li>
-     * </ul>
-     * @return
-     */
-    @Override
-    public Object[] getRequiredFields() {
-        return new Object[0];
-    }
-
     @Override
     public Map<String, Object> getCreationMap() {
         Map<String, Object> m = new HashMap<>();
@@ -193,6 +226,10 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
         m.put("maxquota", this.maxQuota);
         m.put("quota", this.domainQuota);
         m.put("active", Util.b2mB(this.active));
+        m.put("rl_value", this.rlValue);
+        m.put("rl_frame", this.rlFrame);
+        m.put("backupmx", this.backupmx);
+        m.put("relay_all_recipients", this.relayAllRecipients);
         return m;
     }
 

@@ -1,15 +1,15 @@
 package de.fheuschen.mailcow.sdk.builder.helper;
 
 import de.fheuschen.mailcow.sdk.annotation.constraint.*;
-import de.fheuschen.mailcow.sdk.validation.Validateable;
+import de.fheuschen.mailcow.sdk.validation.Validatable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ValidateableTest {
+class ValidatableTest {
 
-    static class A implements Validateable {
+    static class A implements Validatable {
 
         @RequiredField
         private String test;
@@ -46,7 +46,7 @@ class ValidateableTest {
         }
     }
 
-    static class B implements Validateable {
+    static class B implements Validatable {
         @Min(min = 5D)
         int min;
 
@@ -97,7 +97,7 @@ class ValidateableTest {
         assertTrue(b.validate());
     }
 
-    static class C implements Validateable {
+    static class C implements Validatable {
         @Length(min = 3, max = 7)
         String a = "abcd";
         @Length(equals = 5)

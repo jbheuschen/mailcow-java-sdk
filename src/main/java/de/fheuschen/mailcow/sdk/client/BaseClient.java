@@ -15,6 +15,7 @@ import de.fheuschen.mailcow.sdk.util.RequestType;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -24,11 +25,11 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public abstract class BaseClient {
+public abstract class BaseClient implements Serializable {
 
-    protected Client client = ClientBuilder.newClient();
+    protected transient Client client = ClientBuilder.newClient();
     protected String apiKey;
-    protected WebTarget server;
+    protected transient WebTarget server;
     protected Mailcow m;
     protected static Gson g = new Gson();
 
