@@ -1,12 +1,9 @@
 package de.fheuschen.mailcow.sdk.model;
 
-import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.marker.Attributable;
 import de.fheuschen.mailcow.sdk.model.outward.OMailbox;
-import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -248,5 +245,27 @@ public class Mailbox extends MailcowModel implements Attributable<String, String
     @Override
     public void setAttribute(String key, String value) {
         attributes.put(key, value);
+    }
+
+    @Override
+    public String toString() {
+        return "Mailbox{" +
+                "maxNewQuota=" + maxNewQuota +
+                ", isRelayed=" + isRelayed +
+                ", activeInt=" + activeInt +
+                ", quotaUsed=" + quotaUsed +
+                ", percentInUse=" + percentInUse +
+                ", messages=" + messages +
+                ", spamAliases=" + spamAliases +
+                ", quota=" + quota +
+                ", rl=" + rl +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", active='" + active + '\'' +
+                ", domain='" + domain + '\'' +
+                ", local_part='" + local_part + '\'' +
+                ", percentClass='" + percentClass + '\'' +
+                ", attributes=" + attributes +
+                '}';
     }
 }

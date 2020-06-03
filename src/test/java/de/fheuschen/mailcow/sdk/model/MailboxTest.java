@@ -7,11 +7,11 @@ import de.fheuschen.mailcow.sdk.builder.MailboxBuilder;
 import de.fheuschen.mailcow.sdk.exception.ItemNotFoundException;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.util.QuotaUnit;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MailboxTest {
 
     Mailbox mb;
@@ -31,6 +31,7 @@ class MailboxTest {
     }
 
     @Test
+    @Order(1)
     void create() throws MailcowException {
         mb = new MailboxBuilder()
                 .setDomain(MailcowProvider.TEST_DOMAIN)
@@ -43,11 +44,22 @@ class MailboxTest {
     }
 
     @Test
+    @Order(2)
+    void update() throws MailcowException {
+        mb.setActiveInt(0);
+        assertTrue(mb.update(m));
+        assertDoesNotThrow(() -> mb = new MailboxBuilder().withId(MailcowProvider.TEST_MAILBOX).fetch(m));
+        assertEquals(0, mb.getActiveInt());
+    }
+
+    @Test
+    @Order(3)
     void getEndpoint() {
         assertNotNull(mb.getEndpoint());
     }
 
     @Test
+    @Order(7)
     void delete() throws MailcowException {
         assertTrue(mb.delete(m));
         assertThrows(ItemNotFoundException.class, () -> mb = new MailboxBuilder()
@@ -56,30 +68,19 @@ class MailboxTest {
     }
 
     @Test
-    void update() throws MailcowException {
-        mb.setActiveInt(0);
-        assertTrue(mb.update(m));
-        try {
-            mb = new MailboxBuilder()
-                    .withId(MailcowProvider.TEST_DOMAIN)
-                    .fetch(m);
-            assertEquals(0, mb.getActiveInt());
-        } catch (MailcowException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
+    @Order(4)
     void getDeletePacketById() {
         assertNotNull(mb.getDeletePacketById());
     }
 
     @Test
+    @Order(5)
     void getId() {
         assertEquals(MailcowProvider.TEST_MAILBOX, mb.getId());
     }
 
     @Test
+    @Order(6)
     void toOModel() {
         assertNotNull(mb.toOModel());
     }
