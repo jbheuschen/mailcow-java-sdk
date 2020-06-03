@@ -57,19 +57,19 @@ class DomainTest {
 
     @Test
     void create() throws MailcowException {
-        /*d = new DomainBuilder()
-                .setActiveInt(1)
+        d = new DomainBuilder()
+                .setActive(true)
                 .setDomainName(MailcowProvider.TEST_DOMAIN)
                 .setDescription("Test")
-                .setMaxNumAliasesForDomain(400)
-                .setMaxNumMboxesForDomain(200)
-                .setMaxQuotaForDomain(QuotaUnit.GB.toMiB(10))
-                .setDefQuotaForMbox(QuotaUnit.GB.toMiB(1))
-                .setMaxQuotaForMbox(QuotaUnit.GB.toMiB(1))
+                .setMaxAliases(260)
+                .setMaxMailboxes(120)
+                .setMaxMailboxQuota(QuotaUnit.MB.toMiB(400))
+                .setDefaultMailboxQuota(QuotaUnit.MB.toMiB(300))
+                .setDomainQuota(QuotaUnit.GB.toMiB(5))
                 .create(m);
+
         assertNotNull(d);
-        assertEquals("Test", d.getDescription());*/
-        throw new UnsupportedOperationException();
+        assertEquals("Test", d.getDescription());
     }
 
     @Test

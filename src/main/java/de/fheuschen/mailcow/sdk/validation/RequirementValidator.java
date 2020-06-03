@@ -17,10 +17,10 @@ import java.util.Map;
  * own dedicated map of classes and validators; thus, it should be reused (e.g., by using the ValidatorRegistry class).
  *
  * @param <T> the type to perform checks on. Must implement Validateable.
- * @see Validateable
+ * @see Validatable
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class RequirementValidator<T extends Validateable> {
+public class RequirementValidator<T extends Validatable> {
 
     private final Class<T> clazz;
     private Map<Class<? extends Annotation>, Validator<T, Annotation>> validators;
@@ -87,10 +87,14 @@ public class RequirementValidator<T extends Validateable> {
                     s.length() > l.min() && s.length() < l.max() : (l.min() > -1) ? s.length() > l.min()
                     : s.length() < l.max());
         });
+        validators.put(RegExp.class, (t, annotation, f, clazz) -> {
+            RegExp r = (RegExp) annotation;
+            return f.get(t).toString().matches(r.regExp());
+        });
     }
 
     /**
-     * This method analyses the instances passed to it and throw a validation exception as soon as at least one constraint is violated.
+     * This method analyses the instances passed to it and throws a validation exception as soon as at least one constraint is violated.
      *
      * Note: If you have a SecurityManager that is configured to deny reflection-access to private members,
      * this class cannot perform the necessary checks on those fields. For said fields, this method will
