@@ -11,7 +11,8 @@ import java.util.Map;
 
 /**
  * Domain
- *
+ * This class represents a mailcow domain. A domain is a very fundamental object required for many things.
+ * @see de.fheuschen.mailcow.sdk.builder.DomainBuilder
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)

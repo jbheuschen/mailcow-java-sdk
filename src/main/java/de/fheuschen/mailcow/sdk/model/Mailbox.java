@@ -8,7 +8,8 @@ import java.util.Map;
 
 /**
  * Mailbox
- *
+ * A mailbox literally represents a mailbox; thus, this can be compared to a user.
+ * @see de.fheuschen.mailcow.sdk.builder.MailboxBuilder
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
 public class Mailbox extends MailcowModel implements Attributable<String, String> {
