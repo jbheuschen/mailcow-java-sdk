@@ -2,7 +2,9 @@ package de.fheuschen.mailcow.sdk.builder.helper;
 
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.builder.helper.Builder;
+import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
+import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.model.MailcowModel;
 
 import java.util.Collection;
@@ -38,4 +40,10 @@ public interface FetchableBuilder<P extends MailcowModel, I, B extends Builder<P
      * @throws MailcowException if a severe error occurs.
      */
     Collection<P> fetchAll(Mailcow m) throws MailcowException;
+
+    default P _fetch(Mailcow m, BaseClient.Endpoint<P> endpoint, String id, Class<P> clazz) throws MailcowException {
+        if(id == null)
+            throw new IllegalStateException("You must provide an id you want to fetch.");
+        return m.getClient().performGetRequest(endpoint, null, clazz, id);
+    }
 }

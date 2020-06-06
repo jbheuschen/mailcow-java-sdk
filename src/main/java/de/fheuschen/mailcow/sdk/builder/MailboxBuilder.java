@@ -94,9 +94,7 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
 
     @Override
     public Mailbox fetch(Mailcow m) throws MailcowException {
-        if(this.identification == null)
-            throw new IllegalStateException("You must provide an id you want to fetch.");
-        return m.getClient().performGetRequest(Mailbox.ENDPOINT, null, Mailbox.class, this.identification);
+        return _fetch(m, Mailbox.ENDPOINT, identification, Mailbox.class);
     }
 
     @Override

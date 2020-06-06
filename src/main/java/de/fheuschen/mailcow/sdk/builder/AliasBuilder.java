@@ -61,7 +61,7 @@ public class AliasBuilder implements FetchableBuilder<Alias, String, AliasBuilde
 
     @Override
     public Alias fetch(Mailcow m) throws MailcowException {
-        return null;
+        return _fetch(m, Alias.ENDPOINT, identification, Alias.class);
     }
 
     @Override
