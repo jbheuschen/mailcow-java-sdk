@@ -1,6 +1,7 @@
 package de.fheuschen.mailcow.sdk.model;
 
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.model.outward.OAlias;
 import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 
 /**
@@ -33,17 +34,19 @@ public class Alias extends MailcowModel {
         }
     };
 
+    private String identification;
+
     public Alias() {
         super(ENDPOINT);
     }
 
     @Override
     public String getId() {
-        return null;
+        return identification;
     }
 
     @Override
-    public OMailcowModel toOModel() {
-        return null;
+    public OAlias toOModel() {
+        return new OAlias(this);
     }
 }

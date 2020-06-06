@@ -7,6 +7,7 @@ import de.fheuschen.mailcow.sdk.builder.helper.FetchableBuilder;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Alias;
+import de.fheuschen.mailcow.sdk.model.Mailbox;
 import de.fheuschen.mailcow.sdk.util.Util;
 
 import java.util.Collection;
@@ -36,6 +37,10 @@ public class AliasBuilder implements FetchableBuilder<Alias, String, AliasBuilde
     public AliasBuilder setAddress(String address) {
         this.address = address;
         return this;
+    }
+
+    public AliasBuilder setAddress(Mailbox m) {
+        return setAddress(m.getAddress());
     }
 
     public AliasBuilder setGoTo(String goTo) {

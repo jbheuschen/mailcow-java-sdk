@@ -1,5 +1,6 @@
 package de.fheuschen.mailcow.sdk.model;
 
+import de.fheuschen.mailcow.sdk.builder.AliasBuilder;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.marker.Attributable;
 import de.fheuschen.mailcow.sdk.model.outward.OMailbox;
@@ -194,11 +195,11 @@ public class Mailbox extends MailcowModel implements Attributable<String, String
         this.domain = domain;
     }
 
-    public String getLocal_part() {
+    public String getLocalPart() {
         return local_part;
     }
 
-    public void setLocal_part(String local_part) {
+    public void setLocalPart(String local_part) {
         this.local_part = local_part;
     }
 
@@ -216,6 +217,15 @@ public class Mailbox extends MailcowModel implements Attributable<String, String
 
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
+    }
+
+    public String getAddress() {
+        return this.local_part + "@" + this.domain;
+    }
+
+    public AliasBuilder buildAlias() {
+        return new AliasBuilder()
+                .setAddress(this);
     }
 
     @Override

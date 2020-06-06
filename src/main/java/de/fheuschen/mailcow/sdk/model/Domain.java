@@ -3,6 +3,7 @@ package de.fheuschen.mailcow.sdk.model;
 import com.fasterxml.jackson.annotation.*;
 import com.google.gson.annotations.SerializedName;
 import de.fheuschen.mailcow.sdk.Mailcow;
+import de.fheuschen.mailcow.sdk.builder.MailboxBuilder;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.model.outward.ODomain;
 
@@ -500,6 +501,14 @@ public class Domain extends MailcowModel {
         this.additionalProperties.put(name, value);
     }
 
+    /**
+     * Returns a mailbox builder with this domain set as domain name.
+     * @return a mailbox builder
+     */
+    public MailboxBuilder buildMailbox() {
+        return new MailboxBuilder()
+                .setDomain(this);
+    }
 
     @Override
     public String getId() {
