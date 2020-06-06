@@ -1,7 +1,11 @@
 package de.fheuschen.mailcow.sdk;
 
 import de.fheuschen.mailcow.sdk.builder.APIBuilder;
+import de.fheuschen.mailcow.sdk.builder.DomainBuilder;
+import de.fheuschen.mailcow.sdk.exception.ItemNotFoundException;
+import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;
+import de.fheuschen.mailcow.sdk.util.QuotaUnit;
 
 /**
  * MailcowProvider
@@ -13,7 +17,9 @@ public class MailcowProvider {
     private static Mailcow m;
     public static final String MCJ_API_KEY_ENV = "MCJ_KEY", MCJ_API_URL_ENV = "MCJ_URL";
     public static final String TEST_DOMAIN = "mjs.local";
-    public static final String TEST_MAILBOX = "test@mjs.local";
+    public static final String TEST_MAILBOX = "test@" + TEST_DOMAIN;
+    public static final String TEST_ALIAS = "alias@" + TEST_DOMAIN;
+    public static int TEST_ALIAS_ID = 1;
     public static final String TEST_MAILBOX_LOCAL = "test";
     public static final String TEST_MAILBOX_PASSWORD = "dacja39wj9wa";
     public static String API_KEY = "0FE593-F6ED2F-394793-0717CC-1E8A37";
@@ -38,7 +44,32 @@ public class MailcowProvider {
     }
 
     public static Domain createOrGetTestDomain() {
-        throw new UnsupportedOperationException("NYI");
+        try {
+            return new DomainBuilder()
+                    .withId(MailcowProvider.TEST_DOMAIN)
+                    .fetch(getMailcowInstance());
+        } catch (ItemNotFoundException e) {
+            try {
+                new DomainBuilder()
+                        .setActive(true)
+                        .setDomainName(MailcowProvider.TEST_DOMAIN)
+                        .setDescription("Test")
+                        .setMaxAliases(260)
+                        .setMaxMailboxes(120)
+                        .setMaxMailboxQuota(QuotaUnit.MB.toMiB(400))
+                        .setDefaultMailboxQuota(QuotaUnit.MB.toMiB(300))
+                        .setDomainQuota(QuotaUnit.GB.toMiB(5))
+                        .create(m);
+            } catch (MailcowException mailcowException) {
+                mailcowException.printStackTrace();
+                return null;
+            }
+            return createOrGetTestDomain();
+        } catch (MailcowException e) {
+            e.printStackTrace();
+
+        }
+        return null;
     }
 
 }

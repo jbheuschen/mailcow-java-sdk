@@ -5,6 +5,7 @@ import de.fheuschen.mailcow.sdk.annotation.constraint.Length;
 import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
 import de.fheuschen.mailcow.sdk.builder.helper.FetchableBuilder;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.exception.ItemCreationFailedException;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Alias;
 import de.fheuschen.mailcow.sdk.model.Mailbox;
@@ -32,6 +33,9 @@ public class AliasBuilder implements FetchableBuilder<Alias, Integer, AliasBuild
     @RequiredField
     private boolean active;
 
+    // Learn incoming mails as spam...
+    private boolean goToSpam = false;
+
     private int identification;
 
     public AliasBuilder setAddress(String address) {
@@ -39,12 +43,22 @@ public class AliasBuilder implements FetchableBuilder<Alias, Integer, AliasBuild
         return this;
     }
 
+    /**
+     * Attention: the address is NOT the target! This method only exists for mailbox-to-alias migrations!
+     * @param m
+     * @return
+     */
     public AliasBuilder setAddress(Mailbox m) {
         return setAddress(m.getAddress());
     }
 
     public AliasBuilder setGoTo(String goTo) {
         this.goTo = goTo;
+        return this;
+    }
+
+    public AliasBuilder setGoTo(Mailbox goTo) {
+        this.goTo = goTo.getAddress();
         return this;
     }
 
@@ -66,11 +80,17 @@ public class AliasBuilder implements FetchableBuilder<Alias, Integer, AliasBuild
 
     @Override
     public Collection<Alias> fetchAll(Mailcow m) throws MailcowException {
-        return null;
+        return null; // TODO
     }
 
     @Override
     public Alias create(Mailcow m) throws MailcowException {
+        if(this._doCreation(m)) {
+            Alias t = this.withId(identification).fetch(m);
+            if(t == null)
+                throw new ItemCreationFailedException("Item creation failed due to an unknown error.");
+            return t;
+        }
         return null;
     }
 
@@ -87,11 +107,19 @@ public class AliasBuilder implements FetchableBuilder<Alias, Integer, AliasBuild
 
     @Override
     public BaseClient.Endpoint<?> getEndpoint() {
-        return null;
+        return Alias.ENDPOINT;
     }
 
     @Override
+    @Deprecated
     public Alias build() {
-        return null;
+        return new Alias();
+    }
+
+    public Alias createSpamAlias(Mailcow m, String address) throws MailcowException {
+        // TODO
+        this.goToSpam = true;
+        this.address = address;
+        return this.create(m);
     }
 }

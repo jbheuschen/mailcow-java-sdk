@@ -1,11 +1,11 @@
 package de.fheuschen.mailcow.sdk.model;
 
 import com.google.gson.annotations.SerializedName;
+import de.fheuschen.mailcow.sdk.annotation.ReadOnly;
 import de.fheuschen.mailcow.sdk.annotation.constraint.Min;
 import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.model.outward.OAlias;
-import de.fheuschen.mailcow.sdk.model.outward.OMailcowModel;
 
 /**
  * Alias
@@ -18,22 +18,22 @@ public class Alias extends MailcowModel {
     public static final BaseClient.Endpoint<Alias> ENDPOINT = new BaseClient.Endpoint<Alias>() {
         @Override
         public String getEndpointUrl() {
-            return "get/alias";
+            return "get/alias/";
         }
 
         @Override
         public String getEditEndpointUrl() {
-            return "edit/alias";
+            return "edit/alias/";
         }
 
         @Override
         public String getDeleteEndpointUrl() {
-            return "delete/alias";
+            return "delete/alias/";
         }
 
         @Override
         public String getAddEndpointUrl() {
-            return "add/alias";
+            return "add/alias/";
         }
     };
 
@@ -61,8 +61,10 @@ public class Alias extends MailcowModel {
     @SerializedName("active_int")
     private int active;
 
+    @ReadOnly
     private String created;
 
+    @ReadOnly
     private String modified;
 
     /**
