@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class AliasBuilder implements FetchableBuilder<Alias, String, AliasBuilder> {
+public class AliasBuilder implements FetchableBuilder<Alias, Integer, AliasBuilder> {
 
     @RequiredField
     @Length(min = 3)
@@ -32,7 +32,7 @@ public class AliasBuilder implements FetchableBuilder<Alias, String, AliasBuilde
     @RequiredField
     private boolean active;
 
-    private String identification;
+    private int identification;
 
     public AliasBuilder setAddress(String address) {
         this.address = address;
@@ -54,7 +54,7 @@ public class AliasBuilder implements FetchableBuilder<Alias, String, AliasBuilde
     }
 
     @Override
-    public AliasBuilder withId(String id) {
+    public AliasBuilder withId(Integer id) {
         this.identification = id;
         return this;
     }

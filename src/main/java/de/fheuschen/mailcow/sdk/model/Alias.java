@@ -34,8 +34,15 @@ public class Alias extends MailcowModel {
         }
     };
 
+
+
     private String identification;
 
+    /**
+     * Marked as deprecated as no model should never be instantiated manually unless the resulting behavior is intended.
+     * @see de.fheuschen.mailcow.sdk.builder.AliasBuilder
+     */
+    @Deprecated
     public Alias() {
         super(ENDPOINT);
     }

@@ -41,9 +41,9 @@ public interface FetchableBuilder<P extends MailcowModel, I, B extends Builder<P
      */
     Collection<P> fetchAll(Mailcow m) throws MailcowException;
 
-    default P _fetch(Mailcow m, BaseClient.Endpoint<P> endpoint, String id, Class<P> clazz) throws MailcowException {
+    default P _fetch(Mailcow m, BaseClient.Endpoint<P> endpoint, I id, Class<P> clazz) throws MailcowException {
         if(id == null)
             throw new IllegalStateException("You must provide an id you want to fetch.");
-        return m.getClient().performGetRequest(endpoint, null, clazz, id);
+        return m.getClient().performGetRequest(endpoint, null, clazz, id.toString());
     }
 }
