@@ -18,26 +18,26 @@ public class Alias extends MailcowModel {
     public static final BaseClient.Endpoint<Alias> ENDPOINT = new BaseClient.Endpoint<Alias>() {
         @Override
         public String getEndpointUrl() {
-            return "null";
+            return "get/alias";
         }
 
         @Override
         public String getEditEndpointUrl() {
-            return "null";
+            return "edit/alias";
         }
 
         @Override
         public String getDeleteEndpointUrl() {
-            return "null";
+            return "delete/alias";
         }
 
         @Override
         public String getAddEndpointUrl() {
-            return "null";
+            return "add/alias";
         }
     };
 
-    private String inPrimaryDomain;
+    private String inPrimaryDomain; // ???
 
     @RequiredField
     private String domain;
