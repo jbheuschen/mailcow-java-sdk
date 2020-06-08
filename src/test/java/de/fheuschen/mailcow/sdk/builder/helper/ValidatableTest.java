@@ -21,6 +21,11 @@ class ValidatableTest {
 
         public String notPubTest;
 
+        public String aData = "456", bData = "123";
+
+        @NotRequiredField(unlessNull = {"aData", "bData"})
+        public String aTest = "";
+
         public boolean validate() {
             return this._selfValidate();
         }
@@ -85,6 +90,17 @@ class ValidatableTest {
                 .setNotTest(null)
                 .setTest("not null again");
         assertTrue(a.validate());
+    }
+
+    @Test
+    void testUnless() {
+        a.setNotPubTest(null)
+                .setPubTest("not null")
+                .setNotTest(null)
+                .setTest("not null again");
+        assertTrue(a.validate());
+        a.aData = null;
+        assertFalse(a.validate());
     }
 
     @Test

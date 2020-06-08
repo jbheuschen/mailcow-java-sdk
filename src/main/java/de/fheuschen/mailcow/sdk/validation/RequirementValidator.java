@@ -91,6 +91,58 @@ public class RequirementValidator<T extends Validatable> {
             RegExp r = (RegExp) annotation;
             return f.get(t).toString().matches(r.regExp());
         });
+        validators.put(NotRequiredField.class, (t, annotation, f, clazz) -> {
+           NotRequiredField n = (NotRequiredField) annotation;
+           boolean p1 = true, p2 = true, p3 = true, p4 = true;
+           if(n.unlessNull().length > 0)
+           {
+               p1 = !anyNull(clazz, t, n.unlessNull());
+           }
+           if(n.unlessAllNull().length > 0) {
+               p2 = !allNull(clazz, t, n.unlessAllNull());
+           }
+           if(n.asLongAsNull().length > 0) {
+               p3 = anyNull(clazz, t, n.asLongAsNull());
+           }
+           if(n.asLongAsAllNull().length > 0) {
+               p4 = allNull(clazz, t, n.asLongAsAllNull());
+           }
+           return p1 && p2 && p3 && p4;
+        });
+    }
+
+    private <U> boolean anyNull(Class<U> clazz, U t, String... fields) {
+        for(String fi : fields) {
+            try {
+                Field f = clazz.getDeclaredField(fi);
+                if(!f.canAccess(t))
+                    f.setAccessible(true);
+                if(f.get(t) == null)
+                    return true;
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {
+
+            } catch (SecurityException ignoredButAcknowledged) {
+                continue;
+            }
+        }
+        return false;
+    }
+
+    private <U> boolean allNull(Class<U> clazz, U t, String... fields) {
+        for(String fi: fields) {
+            try {
+                Field f = clazz.getDeclaredField(fi);
+                if(!f.canAccess(t))
+                    f.setAccessible(true);
+                if(f.get(t) != null)
+                    return false;
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {
+
+            } catch(SecurityException ignoredButAcknowledged) {
+                continue;
+            }
+        }
+        return true;
     }
 
     /**
