@@ -36,11 +36,15 @@ public class Util {
 
     public static String b2uB(boolean bool) { return bool ? UC_YES : UC_NO; }
 
+    public static boolean mB2b(String mailcowBool) {
+        return mailcowBool.equalsIgnoreCase("1") || mailcowBool.strip().equalsIgnoreCase(UC_YES);
+    }
+
     /**
      * Default implementation to check whether an item of any kind exists.
      * @param m the mailcow api object. Required to contact the api.
      * @param id the id to check. Refer to the model's documentation for further information.
-     * @param builder a builder object to be used.
+     * @param builder a builder object to be used. It's recommended not to pass <i>this</i> (if called from within an existing builder) in order not to interfere with possible user-made changes to the builder.
      * @param <T> the type of model to test for.
      * @param <I> the type of identifier used.
      * @param <B> the type of builder used.
@@ -55,9 +59,5 @@ public class Util {
             return false;
         }
         return t != null;
-    }
-
-    public static boolean mB2b(String mailcowBool) {
-        return mailcowBool.equalsIgnoreCase("1") || mailcowBool.strip().equalsIgnoreCase(UC_YES);
     }
 }

@@ -5,6 +5,7 @@ import de.fheuschen.mailcow.sdk.annotation.constraint.Length;
 import de.fheuschen.mailcow.sdk.annotation.constraint.Min;
 import de.fheuschen.mailcow.sdk.annotation.constraint.NotRequiredField;
 import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
+import de.fheuschen.mailcow.sdk.builder.helper.ExistenceCheckingBuilder;
 import de.fheuschen.mailcow.sdk.builder.helper.FetchableBuilder;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.ItemCreationFailedException;
@@ -23,7 +24,7 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class MailboxBuilder implements FetchableBuilder<Mailbox, String, MailboxBuilder>, Validatable {
+public class MailboxBuilder implements FetchableBuilder<Mailbox, String, MailboxBuilder>, ExistenceCheckingBuilder<String>, Validatable {
 
     @RequiredField
     private String localPart;
@@ -130,5 +131,10 @@ public class MailboxBuilder implements FetchableBuilder<Mailbox, String, Mailbox
     @Override
     public BaseClient.Endpoint<?> getEndpoint() {
         return Mailbox.ENDPOINT;
+    }
+
+    @Override
+    public boolean exists(Mailcow m, String id) throws MailcowException {
+        return Util.existenceDefImplementation(m, id, new MailboxBuilder());
     }
 }

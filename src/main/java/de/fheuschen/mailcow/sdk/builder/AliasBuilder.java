@@ -3,6 +3,7 @@ package de.fheuschen.mailcow.sdk.builder;
 import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.annotation.constraint.Length;
 import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
+import de.fheuschen.mailcow.sdk.builder.helper.ExistenceCheckingBuilder;
 import de.fheuschen.mailcow.sdk.builder.helper.FetchableBuilder;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
 import de.fheuschen.mailcow.sdk.exception.ItemCreationFailedException;
@@ -10,6 +11,7 @@ import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Alias;
 import de.fheuschen.mailcow.sdk.model.Mailbox;
 import de.fheuschen.mailcow.sdk.util.Util;
+import de.fheuschen.mailcow.sdk.validation.Validatable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,7 +22,7 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class AliasBuilder implements FetchableBuilder<Alias, Integer, AliasBuilder> {
+public class AliasBuilder implements FetchableBuilder<Alias, Integer, AliasBuilder>, ExistenceCheckingBuilder<Integer>, Validatable {
 
     @RequiredField
     @Length(min = 3)
@@ -121,5 +123,10 @@ public class AliasBuilder implements FetchableBuilder<Alias, Integer, AliasBuild
         this.goToSpam = true;
         this.address = address;
         return this.create(m);
+    }
+
+    @Override
+    public boolean exists(Mailcow m, Integer id) throws MailcowException {
+        return Util.existenceDefImplementation(m, id, new AliasBuilder());
     }
 }
