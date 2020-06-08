@@ -240,14 +240,6 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
 
     @Override
     public boolean exists(Mailcow m, String id) throws MailcowException {
-        Domain d;
-        try {
-            d = new DomainBuilder()
-                    .withId(id)
-                    .fetch(m);
-        } catch(ItemNotFoundException e) {
-            return false;
-        }
-        return d != null;
+        return Util.existenceDefImplementation(m, id, new DomainBuilder());
     }
 }

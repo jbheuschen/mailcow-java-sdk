@@ -91,6 +91,6 @@ class DomainTest {
     @Test
     void exists() throws MailcowException {
         assertTrue(new DomainBuilder().exists(m, d.getId()));
-        assertFalse(new DomainBuilder().exists(m, d.getId() + UUID.randomUUID().toString()));
+        assertFalse(new DomainBuilder().exists(m, UUID.randomUUID().toString()));
     }
 }
