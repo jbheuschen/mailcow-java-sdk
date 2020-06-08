@@ -4,8 +4,10 @@ import de.fheuschen.mailcow.sdk.Mailcow;
 import de.fheuschen.mailcow.sdk.annotation.constraint.Length;
 import de.fheuschen.mailcow.sdk.annotation.constraint.Min;
 import de.fheuschen.mailcow.sdk.annotation.constraint.RequiredField;
+import de.fheuschen.mailcow.sdk.builder.helper.ExistenceCheckingBuilder;
 import de.fheuschen.mailcow.sdk.builder.helper.FetchableBuilder;
 import de.fheuschen.mailcow.sdk.client.BaseClient;
+import de.fheuschen.mailcow.sdk.exception.ItemNotFoundException;
 import de.fheuschen.mailcow.sdk.exception.MailcowException;
 import de.fheuschen.mailcow.sdk.model.Domain;
 import de.fheuschen.mailcow.sdk.ratelimit.Ratelimit;
@@ -22,7 +24,7 @@ import java.util.Map;
  *
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
-public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBuilder>, Validatable {
+public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBuilder>, ExistenceCheckingBuilder<String>, Validatable {
 
     @RequiredField
     @Length(min = 2)
@@ -234,5 +236,18 @@ public class DomainBuilder implements FetchableBuilder<Domain, String, DomainBui
     @Override
     public BaseClient.Endpoint<?> getEndpoint() {
         return Domain.ENDPOINT;
+    }
+
+    @Override
+    public boolean exists(Mailcow m, String id) throws MailcowException {
+        Domain d;
+        try {
+            d = new DomainBuilder()
+                    .withId(id)
+                    .fetch(m);
+        } catch(ItemNotFoundException e) {
+            return false;
+        }
+        return d != null;
     }
 }

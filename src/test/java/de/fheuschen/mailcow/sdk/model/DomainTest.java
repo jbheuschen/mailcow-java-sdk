@@ -9,6 +9,8 @@ import de.fheuschen.mailcow.sdk.util.QuotaUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DomainTest {
@@ -84,5 +86,11 @@ class DomainTest {
         } catch (MailcowException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    void exists() throws MailcowException {
+        assertTrue(new DomainBuilder().exists(m, d.getId()));
+        assertFalse(new DomainBuilder().exists(m, d.getId() + UUID.randomUUID().toString()));
     }
 }
