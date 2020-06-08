@@ -39,7 +39,25 @@ public class RequirementValidator<T extends Validatable> {
      */
     private void init() {
         validators = new HashMap<>();
-        validators.put(RequiredField.class, (t, annotation, f, clazz) -> f.get(t) != null);
+        validators.put(RequiredField.class, (t, annotation, f, clazz) -> {
+            RequiredField n = (RequiredField) annotation;
+            boolean p1 = true, p2 = true, p3 = true, p4 = true, actual = f.get(t) != null;
+
+            if(n.unlessNull().length > 0)
+            {
+                p1 = anyNull(clazz, t, n.unlessNull());
+            }
+            if(n.unlessAllNull().length > 0) {
+                p2 = allNull(clazz, t, n.unlessAllNull());
+            }
+            if(n.asLongAsNull().length > 0) {
+                p3 = !anyNull(clazz, t, n.asLongAsNull());
+            }
+            if(n.asLongAsAllNull().length > 0) {
+                p4 = !allNull(clazz, t, n.asLongAsAllNull());
+            }
+            return ((p1 && p2 && p3 && p4) || actual);
+        });
         validators.put(Min.class, (t, annotation, f, clazz) -> {
             Min min = (Min) annotation;
 

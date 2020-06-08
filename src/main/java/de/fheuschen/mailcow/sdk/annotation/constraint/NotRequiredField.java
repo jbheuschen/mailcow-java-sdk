@@ -7,9 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * NotRequiredField
- * Has no special effect on validation but to mark a field for documentary purposes.
  * Marks that a field within a Validatable can be null.
  * Should, for obvious reasons, not be combined with RequiredField. If done so, the latter will be prevail.
+ * Note: in order to give this annotation a real effect (except for marking fields), you can specify several conditions in which
+ * a field can(not) be null. All String[]-fields within this annotation expect an array of actual field-names (accessible via reflection)
+ * as their content, NOT actual values!
  * @see de.fheuschen.mailcow.sdk.validation.Validatable
  * @see de.fheuschen.mailcow.sdk.validation.RequirementValidator
  * @author Julian B. Heuschen <julian@fheuschen.de>

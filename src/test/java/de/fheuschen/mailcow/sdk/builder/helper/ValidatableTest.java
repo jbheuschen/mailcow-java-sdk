@@ -26,6 +26,11 @@ class ValidatableTest {
         @NotRequiredField(unlessNull = {"aData", "bData"})
         public String aTest = "";
 
+        public String cData = "654", dData = "435";
+
+        @RequiredField(unlessAllNull = {"cData", "dData"})
+        public String bTest = "";
+
         public boolean validate() {
             return this._selfValidate();
         }
@@ -101,6 +106,20 @@ class ValidatableTest {
         assertTrue(a.validate());
         a.aData = null;
         assertFalse(a.validate());
+    }
+
+    @Test
+    void testUnlessAll() {
+        a.setNotPubTest(null)
+                .setPubTest("not null")
+                .setNotTest(null)
+                .setTest("not null again");
+        assertTrue(a.validate());
+        a.bTest = null;
+        assertFalse(a.validate());
+        a.cData = null;
+        a.dData = null;
+        assertTrue(a.validate());
     }
 
     @Test

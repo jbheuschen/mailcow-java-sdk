@@ -9,12 +9,36 @@ import java.lang.annotation.Target;
 
 /**
  * RequiredField
- * Marks a field within a Validateable as required (i.e., it must not be null).
+ * Marks a field within a Validatable as required (i.e., it must not be null).
+ * Moreover, conditions to be checked can be specified.
+ * @see NotRequiredField
  * @author Julian B. Heuschen <julian@fheuschen.de>
  * @see RequirementValidator
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequiredField {
-    String errorMessage() default "";
+    /**
+     * The annotated field is required unless any of these is null.
+     * @return
+     */
+    String[] unlessNull() default {};
+
+    /**
+     * The annotated field is required unless all of these all null.
+     * @return
+     */
+    String[] unlessAllNull() default {};
+
+    /**
+     * The annotated field is required as long as any of these is null.
+     * @return
+     */
+    String[] asLongAsNull() default {};
+
+    /**
+     * The annotated field is required as long as all of these are null.
+     * @return
+     */
+    String[] asLongAsAllNull() default {};
 }
