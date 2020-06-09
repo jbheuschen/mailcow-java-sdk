@@ -2,7 +2,7 @@ package de.fheuschen.mailcow.sdk.exception;
 
 /**
  * MailcowException
- * Exceptions of this kind indicated that something has gone wrong, though not necessarily unexpectedly.
+ * Exceptions of this kind indicate that something has gone wrong, though not necessarily unexpectedly.
  * @author Julian B. Heuschen <julian@fheuschen.de>
  */
 public class MailcowException extends Exception {
